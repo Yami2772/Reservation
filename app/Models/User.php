@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'Password',
     ];
 
     /**
@@ -38,6 +38,6 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'password' => 'hashed',
+        'Password' => 'hashed',
     ];
 }
