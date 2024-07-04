@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('auth', function (Blueprint $table) {
             $table->id();
-            $table->string('MobileNumber')->unique();
-            $table->string('Code');
+            $table->string('phone_number')->unique();
+            $table->string('code');
             $table->timestamps();
         });
     }

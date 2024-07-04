@@ -10,6 +10,6 @@ class Auth extends Model
     use HasFactory;
 
     protected $fillable =[
-        'MobileNumber'
+        'phone_number'
     ];
 }

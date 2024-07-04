@@ -12,7 +12,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $User = User::create($request
-            ->merge(["Password" => Hash::make($request->Password)])
+            ->merge(["password" => Hash::make($request->password)])
             ->toArray());
 
         return response()->json($User);
@@ -21,18 +21,18 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $type = $request->type;
-        $User = User::select('id', 'MobileNumber', 'Password')
-            ->where('MobileNumber', $request->MobileNumber)
+        $User = User::select('id', 'phone_number', 'password')
+            ->where('phone_number', $request->phone_number)
             ->first();
         if (!$User) {
             return response()->json('User not found!');
         }
 
         if ($type == 'login') {
-            if (!Hash::check($request->Password, $User->Password)) {
+            if (!Hash::check($request->password, $User->password)) {
                 return response()->json('Password is INCORRECT!');
             } else {
-                $Token = $User->createToken($request->MobileNumber)->plainTextToken;
+                $Token = $User->createToken($request->phone_number)->plainTextToken;
             }
             return response()->json("Token = $Token");
         }
@@ -48,7 +48,7 @@ class AuthController extends Controller
         if ($type == 'code_confirm') {
             $Code = Auth::select('code');
             if ($request->code == $Code) {
-                $Token = $User->createToken($request->MobileNumber)->plainTextToken;
+                $Token = $User->createToken($request->phone_number)->plainTextToken;
 
                 return response()->json("Token = $Token");
             } else {
