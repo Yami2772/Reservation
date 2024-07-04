@@ -12,6 +12,8 @@ class UserController extends Controller
     {
         if ($id) {
             $User = User::where('id', $id)->first();
+        } else {
+            $User = User::get();
         }
 
         return response()->json($User);
