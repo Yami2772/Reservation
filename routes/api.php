@@ -20,12 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     //register
     Route::post('register', [AuthController::class, 'register'])->name('register');
-    //login(normal)
+    //login
     Route::post('login', [AuthController::class, 'logiN'])->name('login');
-    //login(code_request)
-
-    //login(code_confirm)
-
 });
 
 //users
