@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auth;
+use App\Models\Code;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -39,14 +39,14 @@ class AuthController extends Controller
         if ($type == 'code_request') {
 
             $code = rand(1000, 9999);
-            $data = Auth::create($request
+            $data = Code::create($request
                 ->merge(["Code" => $code])
                 ->toArray());
 
             return response()->json(["code" => $data]);
         }
         if ($type == 'code_confirm') {
-            $Code = Auth::select('code');
+            $Code = Code::select('code');
             if ($request->code == $Code) {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
 
