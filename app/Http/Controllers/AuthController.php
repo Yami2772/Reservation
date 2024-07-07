@@ -49,9 +49,8 @@ class AuthController extends Controller
             $Code = Code::select('id', 'phone_number', 'code')
                 ->where('phone_number', $request->phone_number)
                 ->first();
-            if ($request->code == $Code) {
+            if ($Code['code'] == $request->code) {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
-
                 return response()->json("Token = $Token");
             } else {
                 return response()->json('Code or phone number is INCORRECT');
