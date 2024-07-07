@@ -10,6 +10,7 @@ class Code extends Model
     use HasFactory;
 
     protected $fillable =[
-        'phone_number'
+        'phone_number',
+        'code',
     ];
 }

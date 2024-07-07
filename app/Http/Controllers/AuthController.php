@@ -40,7 +40,7 @@ class AuthController extends Controller
 
             $code = rand(1000, 9999);
             $data = Code::create($request
-                ->merge(["Code" => $code])
+                ->merge(["code" => $code])
                 ->toArray());
 
             return response()->json(["code" => $data]);
