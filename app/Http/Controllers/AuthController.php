@@ -51,6 +51,8 @@ class AuthController extends Controller
                 ->first();
             if ($Code['code'] == $request->code) {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
+                Code::where('code', $request->code)->delete();
+
                 return response()->json("Token = $Token");
             } else {
                 return response()->json('Code or phone number is INCORRECT');
