@@ -28,7 +28,7 @@ class AuthController extends Controller
             return response()->json('User not found!');
         }
 
-        if ($type == 'login') {
+        if ($type == 'with_password') {
             if (!Hash::check($request->password, $User->password)) {
                 return response()->json('Password is INCORRECT!');
             } else {
