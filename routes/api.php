@@ -29,11 +29,11 @@ Route::prefix('auth')->group(function () {
 });
 
 //users
-Route::prefix('users')->middleware('auth:sanctum')->group(function () {
+Route::prefix('users')->group(function () {
     //users_list
-    Route::get('index', [UserController::class, 'index'])->name('index');
+    Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
     //users_edit
-    Route::put('edit', [UserController::class, 'edit'])->name('edit');
+    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
     //users_delete
-    Route::delete('delete', [UserController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
 });
