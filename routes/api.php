@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\LogRController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,13 +18,9 @@ use Illuminate\Support\Facades\Route;
 //auth
 Route::prefix('auth')->group(function () {
     //register
-    Route::post('register', [LogRController::class, 'register'])->name('register');
-    //login(normal)
-    Route::post('login', [LogRController::class, 'logiN'])->name('login');
-    //login(code_request)
-
-    //login(code_confirm)
-    
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    //login
+    Route::post('login', [AuthController::class, 'login'])->name('login');
 });
 
 //users
