@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Code;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
-use function Laravel\Prompts\select;
 
 class AuthController extends Controller
 {
