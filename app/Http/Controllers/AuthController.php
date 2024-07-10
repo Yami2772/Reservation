@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Code;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
+use function Laravel\Prompts\select;
 
 class AuthController extends Controller
 {
@@ -46,10 +49,10 @@ class AuthController extends Controller
             return response()->json(["code" => $data]);
         }
         if ($type == 'code_confirm') {
-            $Code = Code::select('id', 'phone_number', 'code')
+            $code = Code::select('phone_number', 'code')
                 ->where('phone_number', $request->phone_number)
                 ->first();
-            if ($Code['code'] == $request->code) {
+            if ($code['code'] == $request->code) {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
                 Code::where('code', $request->code)->delete();
 
