@@ -22,7 +22,7 @@ class SetingeController extends Controller
     return response()->json($setinge);
    }
    public function edit(Request $request,$id){
-    $setinge=setinge::where('id',$id)->update($request->toArray());
+    $setinge=setinge::where('id',$id)->first()->update($request->toArray());
    }
    public function delete($id){
     $setinge=setinge::where('id',$id)->delete();
