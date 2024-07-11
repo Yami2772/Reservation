@@ -39,6 +39,30 @@ class PermissionSeeder extends Seeder
             $Admin = Role::create(['name' => 'Admin']);
         }
 
+        //SYNCING_PERMISSIONS
+        $Super_Admin->syncPermissions([
+            'create user',
+            'read user',
+            'update user',
+            'delete user',
+            'create service',
+            'read service',
+            'update service',
+            'delete service',
+        ]);
+        $Admin->syncPermissions([
+            'create user',
+            'read user',
+            'update user',
+            'delete user',
+            'create service',
+            'read service',
+            'update service',
+            'delete service',
+        ]);
+
+        //CREATE_USER
+        //Super_Admin
         $Super_Admin = User::create([
             'first_name' => 'hesam',
             'last_name' => 'ardestani',
@@ -46,7 +70,7 @@ class PermissionSeeder extends Seeder
             'password' => 'hesamam',
         ]);
         $Super_Admin->assignRole('Super_Admin');
-
+        //Admin
         $Admin = User::create([
             'first_name' => 'jojo',
             'last_name' => 'kuchulu',
