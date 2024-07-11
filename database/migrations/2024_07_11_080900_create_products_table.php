@@ -16,6 +16,7 @@ return new class extends Migration
            $table->date('date');
            $table->dateTime('date_time');
            $table->integer('price');
+           $table->integer('length');
         });
     }
 

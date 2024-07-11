@@ -12,6 +12,7 @@ class product extends Model
     'text',
     'date',
     'date_time',
-    'price'
+    'price',
+    'length'
 ];
 }
