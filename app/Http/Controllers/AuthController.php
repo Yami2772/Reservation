@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Code;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,23 +40,33 @@ class AuthController extends Controller
         if ($type == 'code_request') {
 
             $code = rand(1000, 9999);
+            $expiration_time = Carbon::now()->addMinutes(5);
             $data = Code::create($request
-                ->merge(["code" => $code])
+                ->merge([
+                    "code" => $code,
+                    "expiration_time" => $expiration_time
+                ])
                 ->toArray());
 
             return response()->json(["code" => $data]);
         }
         if ($type == 'code_confirm') {
-            $code = Code::select('phone_number', 'code')
+            $code = Code::select('phone_number', 'code', 'created_at', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
                 ->first();
-            if ($code['code'] == $request->code) {
-                $Token = $User->createToken($request->phone_number)->plainTextToken;
-                Code::where('code', $request->code)->delete();
+            $now = Carbon::now();
 
-                return response()->json("Token = $Token");
+            if ($now <= $code['expiration_time']) {
+                if ($code['code'] == $request->code) {
+                    $Token = $User->createToken($request->phone_number)->plainTextToken;
+                    Code::where('code', $request->code)->delete();
+
+                    return response()->json("Token = $Token");
+                } else {
+                    return response()->json('Code or phone number is INCORRECT');
+                }
             } else {
-                return response()->json('Code or phone number is INCORRECT');
+                return response()->json('The code is EXPIRED!');
             }
         }
     }

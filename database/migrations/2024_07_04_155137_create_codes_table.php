@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('phone_number')->unique();
             $table->integer('code');
+            $table->date('expiration_time');
             $table->timestamps();
         });
     }
