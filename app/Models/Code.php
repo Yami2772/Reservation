@@ -12,5 +12,6 @@ class Code extends Model
     protected $fillable =[
         'phone_number',
         'code',
+        'expiration_time'
     ];
 }
