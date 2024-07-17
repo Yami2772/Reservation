@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\orders;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -17,19 +18,27 @@ class OrdersController extends Controller
     
         return response()->json($orders);
        }
-       public function store(Request $request){
-        $data = $request->all();
-        
-        // یافتن کاربر مورد نظر بر اساس شناسه
-        $user = orders::find($data['user_id']);
-        
-        // اضافه کردن اطلاعات مربوط به ساعت شروع و پایان از کاربر به سفارش
-        $data['start'] = $user->start;
-        $data['stop'] = $user->stop;
-        
-        $orders = orders::create($data); // ذخیره سفارش با اطلاعات مقداردهی شده
-        return response()->json($orders);
-    }
+       public function store(Request $request)  
+       {  
+           $data = $request->validate([  
+               'user_id' => 'required|exists:users,id',  
+               'product_id' => 'required|exists:products,id',  
+           ]);  
+    
+           $orderData['start'] = now();  
+           $orderData['stop'] = now();
+           $orderData['user_id'] = $data['user_id'];
+           $orderData['product_id'] = $data['product_id'];  
+           
+           $user = User::find($data['user_id']);  
+       
+           if ($user) { 
+               $order = orders::create($orderData);  
+               return response()->json($order);  
+           }  
+       
+           return response()->json(['error' => 'User not found'], 404);  
+       }
        public function edit(Request $request,$id){
         $orders=orders::where('id',$id)->first()->update($request->toArray());
        }
