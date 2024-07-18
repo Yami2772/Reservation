@@ -9,10 +9,24 @@ class Service extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable =[
         'name',
         'price',
         'description',
         'type'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'description' => 'json',
     ];
 }
