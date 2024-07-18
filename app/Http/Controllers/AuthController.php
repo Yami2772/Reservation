@@ -40,7 +40,7 @@ class AuthController extends Controller
         if ($type == 'code_request') {
 
             $code = rand(1000, 9999);
-            $expiration_time = Carbon::now()->addMinutes(5);
+            $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $data = Code::create($request
                 ->merge([
                     "code" => $code,
@@ -54,8 +54,7 @@ class AuthController extends Controller
             $code = Code::select('phone_number', 'code', 'created_at', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
                 ->first();
-            $now = Carbon::now();
-
+            $now = Carbon::now()->format('Y-m-d H:i:s');
             if ($now <= $code['expiration_time']) {
                 if ($code['code'] == $request->code) {
                     $Token = $User->createToken($request->phone_number)->plainTextToken;
