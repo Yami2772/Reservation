@@ -25,8 +25,8 @@ class OrdersController extends Controller
                'product_id' => 'required|exists:products,id',  
            ]);  
     
-           $orderData['start'] = now();  
-           $orderData['stop'] = now();
+           $orderData['start'] = $request->start;  
+           $orderData['stop'] = $request->stop;
            $orderData['user_id'] = $data['user_id'];
            $orderData['product_id'] = $data['product_id'];  
            
