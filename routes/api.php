@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,16 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
     //users_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
+});
+
+//services
+Route::prefix('services')->group(function () {
+    //services_create
+    Route::post('create', [ServiceController::class, 'create'])->name('create');
+    //services_read
+    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read');
+    //services_update
+    Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
+    //services_delete
+    Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('delete');
 });
