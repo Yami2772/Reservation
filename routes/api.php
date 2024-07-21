@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,34 +28,46 @@ Route::prefix('auth')->group(function () {
 
 //users
 Route::prefix('users')->middleware('auth:sanctum')->group(function () {
-    //users_list
+    //user's_list
     Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
-    //users_edit
+    //user's_edit
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
-    //users_delete
+    //user's_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
 });
 
 //services
 Route::prefix('services')->group(function () {
-    //services_create
+    //service's_create
     Route::post('create', [ServiceController::class, 'create'])->name('create');
-    //services_read
+    //service's_read
     Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read');
-    //services_update
+    //service's_update
     Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
-    //services_delete
+    //service's_delete
     Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('delete');
 });
 
 //reservations
 Route::prefix('reservations')->group(function () {
-    //reservation_create
+    //reservation's_create
     Route::post('create', [ReservationController::class, 'create'])->name('create');
-    //reservation_read
+    //reservation's_read
     Route::get('index/{id?}', [ReservationController::class, 'read'])->name('read');
-    //reservation_update
+    //reservation's_update
     Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
-    //reservation_delete
+    //reservation's_delete
     Route::delete('delete', [ReservationController::class, 'delete'])->name('delete');
+});
+
+//settings
+Route::prefix('settings')->group(function(){
+    //setting's_create
+    Route::post('create', [SettingController::class, 'create'])->name('create');
+    //setting's_read
+    Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
+    //setting's_update
+    Route::put('update', [SettingController::class, 'update'])->name('update');
+    //setting's_delete
+    Route::delete('delete', [SettingController::class, 'delete'])->name('delete');
 });
