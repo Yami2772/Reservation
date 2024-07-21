@@ -61,7 +61,7 @@ Route::prefix('reservations')->group(function () {
 });
 
 //settings
-Route::prefix('settings')->group(function(){
+Route::prefix('settings')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('create');
     //setting's_read
