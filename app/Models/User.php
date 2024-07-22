@@ -42,9 +42,5 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
-    ];
-    public function orders():BelongsTo
-    {
-        return $this->belongsTo(orders::class);
-    }
+    ]; 
 }

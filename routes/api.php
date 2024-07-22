@@ -41,7 +41,7 @@ Route::prefix('services')->group(function () {
     //service's_create
     Route::post('create', [ServiceController::class, 'create'])->name('create');
     //service's_read
-    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('index');
     //service's_update
     Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
     //service's_delete
@@ -53,7 +53,7 @@ Route::prefix('reservations')->group(function () {
     //reservation's_create
     Route::post('create', [ReservationController::class, 'create'])->name('create');
     //reservation's_read
-    Route::get('index/{id?}', [ReservationController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [ReservationController::class, 'read'])->name('index');
     //reservation's_update
     Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
     //reservation's_delete
@@ -65,7 +65,7 @@ Route::prefix('settings')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('create');
     //setting's_read
-    Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [SettingController::class, 'read'])->name('index');
     //setting's_update
     Route::put('update', [SettingController::class, 'update'])->name('update');
     //setting's_delete
