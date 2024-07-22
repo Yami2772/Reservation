@@ -65,7 +65,7 @@ Route::prefix('settings')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('create');
     //setting's_read
-    Route::get('index/{id?}', [SettingController::class, 'read'])->name('index');
+    Route::get('index', [SettingController::class, 'read'])->name('index');
     //setting's_update
     Route::put('update', [SettingController::class, 'update'])->name('update');
     //setting's_delete
