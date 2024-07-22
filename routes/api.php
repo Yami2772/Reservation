@@ -20,11 +20,15 @@ use PHPUnit\Runner\ClassCannotBeFoundException;
 */
 
 //auth
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
     //register
-    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('register', [AuthController::class, 'register'])->name('register')
+    ->withoutMiddleware('auth:sanctum');
     //login
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login')
+    ->withoutMiddleware('auth:sanctum');
+    //me
+    Route::get('me', [AuthController::class, 'me'])->name('me');
 });
 
 //users
