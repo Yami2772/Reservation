@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SetingeController;
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,47 +27,47 @@ Route::prefix('auth')->group(function () {
 });
 
 //users
-Route::prefix('users')->group(function () {
-    //users_list
+Route::prefix('users')->middleware('auth:sanctum')->group(function () {
+    //user's_list
     Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
-    //users_edit
+    //user's_edit
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
-    //users_delete
+    //user's_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
 });
 
-//products
-Route::prefix('products')->group(function () {
-    //products_list
-    Route::get('index/{id?}', [ProductController::class, 'index'])->name('index');
-    //products_store
-    Route::post('store',[ProductController::class, 'store'])->name('store');
-    //products_edit
-    Route::put('edit/{id}', [ProductController::class, 'edit'])->name('edit');
-    //products_delete
-    Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('delete');
+//services
+Route::prefix('services')->group(function () {
+    //service's_create
+    Route::post('create', [ServiceController::class, 'create'])->name('create');
+    //service's_read
+    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read');
+    //service's_update
+    Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
+    //service's_delete
+    Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('delete');
 });
 
-//setinges
-Route::prefix('setinges')->group(function () {
-    //setinges_list
-    Route::get('index/{id?}', [SetingeController::class, 'index'])->name('index');
-    //setinges_store
-    Route::post('store',[SetingeController::class, 'store'])->name('store');
-    //setinges_edit
-    Route::put('edit/{id}', [SetingeController::class, 'edit'])->name('edit');
-    //setinges_delete
-    Route::delete('delete/{id}', [SetingeController::class, 'delete'])->name('delete');
+//reservations
+Route::prefix('reservations')->group(function () {
+    //reservation's_create
+    Route::post('create', [ReservationController::class, 'create'])->name('create');
+    //reservation's_read
+    Route::get('index/{id?}', [ReservationController::class, 'read'])->name('read');
+    //reservation's_update
+    Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
+    //reservation's_delete
+    Route::delete('delete', [ReservationController::class, 'delete'])->name('delete');
 });
 
-//orders
-Route::prefix('orders')->group(function () {
-    //orders_list
-    Route::get('index/{id?}', [OrdersController::class, 'index'])->name('index');
-    //orders_store
-    Route::post('store',[OrdersController::class, 'store'])->name('store');
-    //orders_edit
-    Route::put('edit/{id}', [OrdersController::class, 'edit'])->name('edit');
-    //orders_delete
-    Route::delete('delete/{id}', [OrdersController::class, 'delete'])->name('delete');
+//settings
+Route::prefix('settings')->group(function () {
+    //setting's_create
+    Route::post('create', [SettingController::class, 'create'])->name('create');
+    //setting's_read
+    Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
+    //setting's_update
+    Route::put('update', [SettingController::class, 'update'])->name('update');
+    //setting's_delete
+    Route::delete('delete', [SettingController::class, 'delete'])->name('delete');
 });
