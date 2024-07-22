@@ -7,12 +7,11 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
-    public function create(Request $request)
-    {
-        $Reservation = Reservation::create($request->merge([])->toArray());
-
-        return response()->json($Reservation);
-    }
+    public function create (Request $request){
+        $create = Reservation::create($request->toArray());
+          $create->Service()->attach($request->service_id);
+        return response()->json($create);
+      }
 
     public function read($id = null)
     {
@@ -36,5 +35,10 @@ class ReservationController extends Controller
         Reservation::where('id' , $id)->delete();
 
         return response()->json('Reservation deleted successfully!');
+    }
+    public function detach(Request $request, $id){
+        $order = Reservation::find($id);
+        $order->products()->detach($request->product_id); 
+        return response()->json($order);
     }
 }
