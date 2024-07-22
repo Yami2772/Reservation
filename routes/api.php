@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Runner\ClassCannotBeFoundException;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,7 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
 });
 
 //services
-Route::prefix('services')->group(function () {
+Route::prefix('services')->middleware('auth:sanctum')->group(function () {
     //service's_create
     Route::post('create', [ServiceController::class, 'create'])->name('create');
     //service's_read
@@ -49,7 +50,7 @@ Route::prefix('services')->group(function () {
 });
 
 //reservations
-Route::prefix('reservations')->group(function () {
+Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     //reservation's_create
     Route::post('create', [ReservationController::class, 'create'])->name('create');
     //reservation's_read
@@ -61,7 +62,7 @@ Route::prefix('reservations')->group(function () {
 });
 
 //settings
-Route::prefix('settings')->group(function () {
+Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('create');
     //setting's_read
