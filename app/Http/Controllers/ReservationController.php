@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reservstion;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
     public function create(Request $request)
     {
-        $Reservation = Reservstion::create($request->merge([])->toArray());
+        $Reservation = Reservation::create($request->merge([])->toArray());
 
         return response()->json($Reservation);
     }
@@ -17,9 +17,9 @@ class ReservationController extends Controller
     public function read($id = null)
     {
         if ($id) {
-            $Reservation = Reservstion::where('id', $id)->first();
+            $Reservation = Reservation::where('id', $id)->first();
         } else {
-            $Reservation = Reservstion::paginate(5);
+            $Reservation = Reservation::paginate(5);
         }
 
         return response()->json($Reservation);
@@ -27,13 +27,13 @@ class ReservationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $Reservation = Reservstion::where('id', $id)->update($request->toArray());
+        $Reservation = Reservation::where('id', $id)->update($request->toArray());
 
         return response()->json($Reservation);
     }
 
     public function delete ($id){
-        Reservstion::where('id' , $id)->delete();
+        Reservation::where('id' , $id)->delete();
 
         return response()->json('Reservation deleted successfully!');
     }
