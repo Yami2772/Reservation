@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reservation extends Model
 {
@@ -14,9 +15,14 @@ class Reservation extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable =[
+    protected $fillable = [
         'start_time',
         'end_time',
         'user_id',
     ];
+
+    public function timing(): BelongsTo
+    {
+        return $this->belongsTo(Timing::class);
+    }
 }
