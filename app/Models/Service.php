@@ -4,11 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-=======
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
->>>>>>> cee13b84f8a7895ae4b7d36b7cb065b152acb84c
 
 class Service extends Model
 {
@@ -25,9 +22,9 @@ class Service extends Model
         'description',
         'type'
     ];
-    public function resevation():BelongsToMany
+    public function resevation():BelongsTo
     {
-        return $this->belongsToMany(Reservation::class);
+        return $this->belongsTo(Reservation::class);
     }
 
     /**
