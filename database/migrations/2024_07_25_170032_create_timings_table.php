@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('timing', function (Blueprint $table) {
+        Schema::create('timings', function (Blueprint $table) {
             $table->id();
+            $table->time('start_time');
+            $table->time('end_time');
+            $table->enum('status', ['open', 'closed']);
             $table->timestamps();
         });
     }
