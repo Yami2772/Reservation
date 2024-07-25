@@ -32,9 +32,13 @@ class ReservationController extends Controller
     }
 
     public function delete ($id){
-        Reservation::where('id' , $id)->delete();
-
-        return response()->json('Reservation deleted successfully!');
+        $Reservation = Reservation::where('id', $id)->first();
+        if ($Reservation) {
+            $Reservation->delete();
+            return response()->json('Reservation deleted successfully!');
+        } else {
+            return response()->json('Reservation not found!');
+        }
     }
     public function detach(Request $request, $id){
         $order = Reservation::find($id);

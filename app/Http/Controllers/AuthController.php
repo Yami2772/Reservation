@@ -6,6 +6,7 @@ use App\Models\Code;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -75,5 +76,11 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json('User loggedout seccessfully!');
+    }
+
+    public function me()
+    {
+        $User = Auth::user();
+        return response()->json($User);
     }
 }

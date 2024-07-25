@@ -20,11 +20,15 @@ use PHPUnit\Runner\ClassCannotBeFoundException;
 */
 
 //auth
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
     //register
-    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::post('register', [AuthController::class, 'register'])->name('register')
+    ->withoutMiddleware('auth:sanctum');
     //login
-    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'login'])->name('login')
+    ->withoutMiddleware('auth:sanctum');
+    //me
+    Route::get('me', [AuthController::class, 'me'])->name('me');
 });
 
 //users
@@ -66,9 +70,9 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('create');
     //setting's_read
-    Route::get('index', [SettingController::class, 'read'])->name('index');
+    Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
     //setting's_update
-    Route::put('update', [SettingController::class, 'update'])->name('update');
+    Route::put('update/{id}', [SettingController::class, 'update'])->name('update');
     //setting's_delete
-    Route::delete('delete', [SettingController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('delete');
 });
