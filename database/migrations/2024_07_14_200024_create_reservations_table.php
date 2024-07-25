@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->datetime('start_time');
-            $table->datetime('end_time');
+            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('timing_id');
             $table->unsignedBigInteger('user_id');
+            $table->enum('status',['waiting_for_payment','paid','canceled','ended']);
             $table->timestamps();
         });
     }
