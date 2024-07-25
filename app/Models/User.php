@@ -42,4 +42,7 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ]; 
+    public function Resevation(): BelongsTo{
+        return $this->belongsTo(Reservation::class);
+    }
 }
