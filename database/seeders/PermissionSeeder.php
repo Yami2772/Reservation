@@ -64,16 +64,14 @@ class PermissionSeeder extends Seeder
         //CREATE_USER
         //Super_Admin
         $Super_Admin = User::create([
-            'first_name' => 'hesam',
-            'last_name' => 'ardestani',
+            'full_name' => 'hesam ardestani',
             'phone_number' => '09036867339',
             'password' => 'hesamam',
         ]);
         $Super_Admin->assignRole('Super_Admin');
         //Admin
         $Admin = User::create([
-            'first_name' => 'jojo',
-            'last_name' => 'kuchulu',
+            'full_name' => 'jojo kuchulu',
             'phone_number' => '09127777777',
             'password' => 'jojoam',
         ]);
