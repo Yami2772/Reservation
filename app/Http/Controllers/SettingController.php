@@ -37,8 +37,12 @@ class SettingController extends Controller
     public function delete(Request $request)
     {
         $key = $request->key;
-        Setting::where('key', $key)->delete();
-
-        return response()->json('Setting deleted successfully!');
+        $Setting = Setting::where('key', $key)->first();
+        if ($Setting) {
+            $Setting->delete();
+            return response()->json('Setting deleted successfully!');
+        } else {
+            return response()->json('Setting not found!');
+        }
     }
 }
