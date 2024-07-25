@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
@@ -14,7 +15,7 @@ class Service extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable =[
+    protected $fillable = [
         'name',
         'price',
         'description',
@@ -29,4 +30,9 @@ class Service extends Model
     protected $casts = [
         'description' => 'json',
     ];
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
