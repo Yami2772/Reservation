@@ -44,9 +44,9 @@ class ServiceController extends Controller
         $Service = Service::where('id', $id)->first();
         if ($Service) {
             $Service->delete();
-            return response()->json('User deleted successfully!');
+            return response()->json('Service deleted successfully!');
         } else {
-            return response()->json('User not found!');
+            return response()->json('Service not found!');
         }
     }
 }
