@@ -26,12 +26,18 @@ class ReservationController extends Controller
 
     public function update(Request $request, $id)
     {
-        $Reservation = Reservation::where('id', $id)->update($request->toArray());
+        $Reservation = Reservation::where('id', $id)->first();
+        if (!$Reservation) {
+            return response()->json('Reservation not found!');
+        } else {
+            $Reservation->update($request->toArray());
+        }
 
         return response()->json($Reservation);
     }
 
-    public function delete ($id){
+    public function delete($id)
+    {
         $Reservation = Reservation::where('id', $id)->first();
         if ($Reservation) {
             $Reservation->delete();

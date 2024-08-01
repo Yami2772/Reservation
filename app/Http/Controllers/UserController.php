@@ -24,10 +24,14 @@ class UserController extends Controller
 
     public function edit(CreateUserRequest $request, $id)
     {
-        $User = User::where('id', $id)
-            ->update($request
+        $User = User::where('id', $id)->first();
+        if (!$User) {
+            return response()->json('User not found!');
+        } else {
+            $User->update($request
                 ->merge(["Password" => Hash::make($request->Password)])
                 ->toArray());
+        }
 
         return response()->json($User);
     }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('timing_id');
             $table->unsignedBigInteger('user_id');
-            $table->enum('status', ['waiting_for_payment', 'paid', 'canceled', 'ended']);
+            $table->date('date');
             $table->timestamps();
         });
     }

@@ -9,9 +9,13 @@ class Page extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'title',
         'description',
         'image_path'
+    ];
+
+    protected $casts = [
+        'description' => 'json',
     ];
 }

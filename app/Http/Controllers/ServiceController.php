@@ -10,6 +10,7 @@ class ServiceController extends Controller
     public function create(Request $request)
     {
         $Service = Service::create($request->toArray());
+        $Service->timings()->attach($request->timing_ids);
 
         return response()->json($Service);
     }
@@ -27,7 +28,13 @@ class ServiceController extends Controller
 
     public function update(Request $request, $id)
     {
-        $Service = Service::where('id', $id)->update($request->toArray());
+        $Service = Service::where('id', $id)->first();
+        if (!$Service) {
+            return response()->json('Service not found!');
+        } else {
+            $Service->update($request->toArray());
+            $Service->timings()->attach($request->timing_ids);
+        }
 
         return response()->json($Service);
     }
@@ -37,9 +44,9 @@ class ServiceController extends Controller
         $Service = Service::where('id', $id)->first();
         if ($Service) {
             $Service->delete();
-            return response()->json('User deleted successfully!');
+            return response()->json('Service deleted successfully!');
         } else {
-            return response()->json('User not found!');
+            return response()->json('Service not found!');
         }
     }
 }

@@ -29,7 +29,12 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $key = $request->key;
-        $Setting = Setting::where('key', $key)->update($request->toArray());
+        $Setting = Setting::where('key', $key);
+        if (!$Setting) {
+            return response()->json('Setting not found!');
+        } else {
+            $Setting->update($request->toArray());
+        }
 
         return response()->json($Setting);
     }
