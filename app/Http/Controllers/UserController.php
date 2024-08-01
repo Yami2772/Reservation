@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index($id = null)
+    public function read($id = null)
     {
         if ($id) {
             $User = User::where('id', $id)->first();

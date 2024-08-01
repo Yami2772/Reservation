@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TimingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Runner\ClassCannotBeFoundException;
@@ -18,7 +19,7 @@ use PHPUnit\Runner\ClassCannotBeFoundException;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+Route::post('getservice', [TimingController::class,'getservice'])->name('getservice');
 //auth
 Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
     //register
@@ -29,12 +30,14 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
         ->withoutMiddleware('auth:sanctum');
     //me
     Route::get('me', [AuthController::class, 'me'])->name('me');
+    //logout
+    Route::post('logout/{id}',[AuthController::class,'logout'])->name('logout');
 });
 
 //users
 Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     //user's_list
-    Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
+    Route::get('read/{id?}', [UserController::class, 'read'])->name('read');
     //user's_edit
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
     //user's_delete
@@ -75,4 +78,10 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     Route::put('update/{id}', [SettingController::class, 'update'])->name('update');
     //setting's_delete
     Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('delete');
+});
+
+//timing
+Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
+    //timing's_create
+    Route::post('create', [TimingController::class, 'create'])->name('create');
 });
