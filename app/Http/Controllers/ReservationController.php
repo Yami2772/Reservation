@@ -47,4 +47,8 @@ class ReservationController extends Controller
             return response()->json('Reservation not found!');
         }
     }
+
+    public function reservationStatus($service_id, $date)
+    {
+    }
 }
