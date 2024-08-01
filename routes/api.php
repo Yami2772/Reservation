@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
@@ -86,4 +87,16 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
 Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
     //timing's_create
     Route::post('create', [TimingController::class, 'create'])->name('create');
+});
+
+//page
+Route::prefix('pages')->middleware('auth:sanctum')->group(function(){
+    //page's_craete
+    Route::post('create',[PagesController::class, 'create'])->name('create');
+     //page's_read
+     Route::get('index/{id?}', [PagesController::class, 'read'])->name('index');
+     //page's_update
+     Route::put('update/{id}', [PagesController::class, 'update'])->name('update');
+     //page's_delete
+     Route::delete('delete/{id}', [PagesController::class, 'delete'])->name('delete');
 });
