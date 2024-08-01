@@ -78,9 +78,9 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_read
     Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
     //setting's_update
-    Route::put('update/{id}', [SettingController::class, 'update'])->name('update');
+    Route::put('update', [SettingController::class, 'update'])->name('update');
     //setting's_delete
-    Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('delete');
+    Route::delete('delete', [SettingController::class, 'delete'])->name('delete');
 });
 
 //timing
