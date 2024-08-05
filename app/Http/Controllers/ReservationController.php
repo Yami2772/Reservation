@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Monolog\Handler\WhatFailureGroupHandler;
 
 class ReservationController extends Controller
 {
@@ -48,7 +50,12 @@ class ReservationController extends Controller
         }
     }
 
-    public function reservationStatus($service_id, $date)
+    public function reservationStatus($service_id, $from)
     {
+        $from = Carbon::parse($from)->format('Y-m-d');
+        $dates = [];
+        for ($x = 0; $x < 7; $x++) {
+            array_push($dates, Carbon::parse($from)->addDays($x)->format('Y-m-d'));
+        }
     }
 }
