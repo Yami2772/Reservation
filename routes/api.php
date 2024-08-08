@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TimingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Runner\ClassCannotBeFoundException;
@@ -70,6 +71,15 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
         ->withoutMiddleware('auth:sanctum');
 });
 
+//timings
+Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
+    //timing's_create
+    Route::post('create', [TimingController::class, 'create'])->name('create_timing');
+    //timing's_read
+    Route::get('index', [TimingController::class, 'read'])->name('read_timing');
+    //reservation's_update
+    Route::put('update/{id}', [TimingController::class, 'update'])->name('update_timing');
+});
 //settings
 Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create
