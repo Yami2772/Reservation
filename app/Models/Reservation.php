@@ -16,9 +16,10 @@ class Reservation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'start_time',
-        'end_time',
+        'service_id',
+        'timing_id',
         'user_id',
+        'date',
     ];
 
     public function timing(): BelongsTo
