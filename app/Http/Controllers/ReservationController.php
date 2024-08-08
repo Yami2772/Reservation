@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Monolog\Handler\WhatFailureGroupHandler;
 
 class ReservationController extends Controller
 {
@@ -46,9 +48,13 @@ class ReservationController extends Controller
             return response()->json('Reservation not found!');
         }
     }
-    public function detach(Request $request, $id){
-        $order = Reservation::find($id);
-        $order->products()->detach($request->product_id); 
-        return response()->json($order);
+
+    public function reservationStatus($service_id, $from)
+    {
+        $from = Carbon::parse($from)->format('Y-m-d');
+        $dates = [];
+        for ($x = 0; $x < 7; $x++) {
+            array_push($dates, Carbon::parse($from)->addDays($x)->format('Y-m-d'));
+        }
     }
 }
