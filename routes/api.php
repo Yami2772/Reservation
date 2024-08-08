@@ -65,8 +65,8 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
     //reservation's_delete
     Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('delete');
-    //reservation_status
-    Route::get('check/{service_id}/{from}', [ReservationController::class, 'reservationStatus'])->name('check')
+    //ckeck_reservation
+    Route::get('check/{service_id}/{from}', [ReservationController::class, 'checkReservations'])->name('check')
         ->withoutMiddleware('auth:sanctum');
 });
 
