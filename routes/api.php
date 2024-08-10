@@ -69,11 +69,20 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
     //reservation's_delete
     Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('delete');
-    //reservation_status
-    Route::get('check/{service_id}/{from}', [ReservationController::class, 'reservationStatus'])->name('check')
+    //ckeck_reservation
+    Route::get('check/{service_id}/{from}', [ReservationController::class, 'checkReservations'])->name('check')
         ->withoutMiddleware('auth:sanctum');
 });
 
+//timings
+Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
+    //timing's_create
+    Route::post('create', [TimingController::class, 'create'])->name('create_timing');
+    //timing's_read
+    Route::get('index', [TimingController::class, 'read'])->name('read_timing');
+    //reservation's_update
+    Route::put('update/{id}', [TimingController::class, 'update'])->name('update_timing');
+});
 //settings
 Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create

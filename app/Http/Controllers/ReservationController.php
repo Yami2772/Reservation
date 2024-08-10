@@ -49,12 +49,30 @@ class ReservationController extends Controller
         }
     }
 
-    public function reservationStatus($service_id, $from)
+    public function checkReservations($service_id, $from)
     {
-        $from = Carbon::parse($from)->format('Y-m-d');
-        $dates = [];
+        // Create a Carbon instance for the input date
+        $from = Carbon::parse($from);
+
+        // Create an array to store the results
+        $reservationsByDayAndTiming = [];
+
+        // Loop through each day of the week
         for ($x = 0; $x < 7; $x++) {
-            array_push($dates, Carbon::parse($from)->addDays($x)->format('Y-m-d'));
+            // Calculate the date for the current day
+            $Date = $from->copy()->addDays($x);
+
+            // Query for reservations on the requested date
+            $reservations = Reservation::where('service_id', $service_id)
+                ->whereDate('date', $Date->format('Y-m-d'))
+                ->get();
+
+            // Organize reservations by timing
+            $timings = $reservations->groupBy('timing_id');
+            $reservationsByDayAndTiming[$Date->format('Y-m-d')] = $timings;
         }
+
+        // Return the results as JSON
+        return response()->json($reservationsByDayAndTiming);
     }
 }
