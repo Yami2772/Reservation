@@ -30,17 +30,6 @@ class TimingController extends Controller
             $timing->update($request->toArray());
         }
 
-        return response()->json($timing);
-    }
-
-    public function delete($id)
-    {
-        $timing = Timing::where('id', $id);
-        if ($timing) {
-            $timing->delete();
-            return response()->json('Timing deleted successfully!');
-        } else {
-            return response()->json('Timing not found!');
-        }
+        return response()->json('Timing updated successfully!');
     }
 }
