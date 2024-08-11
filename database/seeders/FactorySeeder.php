@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Reservation;
+use App\Models\Timing;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,5 +17,6 @@ class FactorySeeder extends Seeder
     {
         User::factory()->count(8)->create();
         Reservation::factory()->count(10);
+        Timing::factory()->count(6);
     }
 }
