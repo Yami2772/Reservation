@@ -16,7 +16,7 @@ class FactorySeeder extends Seeder
     public function run(): void
     {
         User::factory()->count(8)->create();
-        Reservation::factory()->count(10);
-        Timing::factory()->count(6);
+        Reservation::factory()->count(10)->create();
+        Timing::factory()->count(6)->create();
     }
 }
