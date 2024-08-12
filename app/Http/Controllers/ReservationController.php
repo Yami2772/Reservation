@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateReservationRequest;
 use App\Models\Reservation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -9,9 +10,8 @@ use Monolog\Handler\WhatFailureGroupHandler;
 
 class ReservationController extends Controller
 {
-    public function create (Request $request){
+    public function create (CreateReservationRequest $request){
         $create = Reservation::create($request->toArray());
-          $create->Service()->attach($request->service_id);
         return response()->json($create);
       }
 
