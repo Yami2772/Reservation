@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckReservationsRequest;
 use App\Models\Reservation;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Monolog\Handler\WhatFailureGroupHandler;
@@ -50,30 +52,27 @@ class ReservationController extends Controller
         }
     }
 
-    public function checkReservations($service_id, $from)
+    public function checkReservations(CheckReservationsRequest $request)
     {
-        // Create a Carbon instance for the input date
+        $from = $request->from;
+        $service_id = $request->service_id;
         $from = Carbon::parse($from);
+        $service = Service::findOrFail($service_id);
+        $timings = $service->timings->pluck('start_time')->toArray();
+        $ReservationStatus = [];
 
-        // Create an array to store the results
-        $reservationsByDayAndTiming = [];
-
-        // Loop through each day of the week
         for ($x = 0; $x < 7; $x++) {
-            // Calculate the date for the current day
-            $Date = $from->copy()->addDays($x);
+            $date = $from->copy()->addDays($x)->format('Y-m-d');
 
-            // Query for reservations on the requested date
-            $reservations = Reservation::where('service_id', $service_id)
-                ->whereDate('date', $Date->format('Y-m-d'))
-                ->get();
+            foreach ($timings as $time) {
+                $reservations = Reservation::where('service_id', $service_id)
+                    ->whereDate('date', $date)
+                    ->exists();
 
-            // Organize reservations by timing
-            $timings = $reservations->groupBy('timing_id');
-            $reservationsByDayAndTiming[$Date->format('Y-m-d')] = $timings;
+                $ReservationStatus[$date][$time] = $reservations;
+            }
         }
 
-        // Return the results as JSON
-        return response()->json($reservationsByDayAndTiming);
+        return response()->json($ReservationStatus);
     }
 }
