@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckReservationsRequest;
 use App\Models\Reservation;
 use App\Models\Service;
+use App\Models\Timing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Monolog\Handler\WhatFailureGroupHandler;
@@ -58,7 +59,7 @@ class ReservationController extends Controller
         $service_id = $request->service_id;
         $from = Carbon::parse($from);
         $service = Service::findOrFail($service_id);
-        $timings = $service->timings->pluck('start_time')->toArray();
+        $timings = $service->timings()->pluck('start_time')->toArray();
         $ReservationStatus = [];
 
         for ($x = 0; $x < 7; $x++) {

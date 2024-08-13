@@ -11,7 +11,7 @@ class CreateReservationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class CreateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_time' => 'required|date_format:'
+            'service_id' => 'required|digits_between:1,1000',
+            'timing_id' => 'required|digits_between:1,6',
+            'user_id' => 'required|digits_between:1,1000',
+            'date' => 'date_format:Y-m-d',
         ];
     }
 }
