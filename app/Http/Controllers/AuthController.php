@@ -36,10 +36,10 @@ class AuthController extends Controller
             } else {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
             }
-            return response()->json("Token = $Token");
+            return response()->json(["Token" => $Token]);
         }
-        if ($type == 'code_request') {
 
+        if ($type == 'code_request') {
             $code = rand(1000, 9999);
             $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $data = Code::create($request
@@ -51,6 +51,7 @@ class AuthController extends Controller
 
             return response()->json(["code" => $data]);
         }
+        
         if ($type == 'code_confirm') {
             $code = Code::select('phone_number', 'code', 'created_at', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
@@ -61,7 +62,7 @@ class AuthController extends Controller
                     $Token = $User->createToken($request->phone_number)->plainTextToken;
                     Code::where('code', $request->code)->delete();
 
-                    return response()->json("Token = $Token");
+                    return response()->json(["Token" => $Token]);
                 } else {
                     return response()->json('Code or phone number is INCORRECT');
                 }
