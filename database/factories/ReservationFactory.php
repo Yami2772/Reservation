@@ -17,10 +17,7 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            'service_id' => fake()->numberBetween(1,4),
-            'timing_id' => fake()->numberBetween(1,6),
-            'user_id' => fake()->randomDigitNotZero(),
-            'date' => fake()->date()
+            'date' => fake()->date(),
         ];
     }
 }
