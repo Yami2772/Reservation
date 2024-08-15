@@ -8,37 +8,49 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index($id = null)
+    public function index(Request $request, $id = null)
     {
-        if ($id) {
-            $User = User::where('id', $id)->first();
+        if ($request->user()->hasRole('Admin')) {
+            if ($id) {
+                $User = User::where('id', $id)->first();
+            } else {
+                $User = User::paginate(10);
+            }
+            return response()->json($User);
         } else {
-            $User = User::paginate(10);
+            return response()->json('You do not have the permission to access this part!');
         }
-        return response()->json($User);
     }
 
     public function edit(Request $request, $id)
     {
-        $User = User::where('id', $id)->first();
-        if (!$User) {
-            return response()->json('User not found!');
+        if ($request->user()->hasRole('Admin')) {
+            $User = User::where('id', $id)->first();
+            if (!$User) {
+                return response()->json('User not found!');
+            } else {
+                $User->update($request
+                    ->merge(["Password" => Hash::make($request->Password)])
+                    ->toArray());
+            }
+            return response()->json('User edited successfully!');
         } else {
-            $User->update($request
-                ->merge(["Password" => Hash::make($request->Password)])
-                ->toArray());
+            return response()->json('You do not have the permission to access this part!');
         }
-        return response()->json('User edited successfully!');
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $User = User::where('id', $id)->first();
-        if ($User) {
-            $User->delete();
-            return response()->json('User deleted successfully!');
+        if ($request->user()->hasRole('Admin')) {
+            $User = User::where('id', $id)->first();
+            if ($User) {
+                $User->delete();
+                return response()->json('User deleted successfully!');
+            } else {
+                return response()->json('User not found!');
+            }
         } else {
-            return response()->json('User not found!');
+            return response()->json('You do not have the permission to access this part!');
         }
     }
 }

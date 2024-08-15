@@ -9,27 +9,36 @@ class TimingController extends Controller
 {
     public function create(Request $request)
     {
-        $timing = Timing::create($request->toArray());
-
-        return response()->json($timing);
+        if ($request->user()->hasRole('Admin')) {
+            $timing = Timing::create($request->toArray());
+            return response()->json($timing);
+        } else {
+            return response()->json('You do not have the permission to access this part!');
+        }
     }
 
-    public function read()
+    public function read(Request $request)
     {
-        $timing = Timing::get();
-
-        return response()->json($timing);
+        if ($request->user()->hasRole('Admin')) {
+            $timing = Timing::get();
+            return response()->json($timing);
+        } else {
+            return response()->json('You do not have the permission to access this part!');
+        }
     }
 
     public function update(Request $request, $id)
     {
-        $timing = Timing::where('id', $id);
-        if (!$timing) {
-            return response()->json('Timing not found!');
+        if ($request->user()->hasRole('Admin')) {
+            $timing = Timing::where('id', $id);
+            if (!$timing) {
+                return response()->json('Timing not found!');
+            } else {
+                $timing->update($request->toArray());
+            }
+            return response()->json('Timing updated successfully!');
         } else {
-            $timing->update($request->toArray());
+            return response()->json('You do not have the permission to access this part!');
         }
-
-        return response()->json('Timing updated successfully!');
     }
 }

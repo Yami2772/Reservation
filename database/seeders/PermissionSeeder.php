@@ -17,64 +17,73 @@ class PermissionSeeder extends Seeder
     {
         //PERMISSIONS
         //user_permissions
-        Permission::create(['name' => 'create user']);
-        Permission::create(['name' => 'read user']);
-        Permission::create(['name' => 'update user']);
-        Permission::create(['name' => 'delete user']);
+        Permission::create(['name' => 'create_user']);
+        Permission::create(['name' => 'read_user']);
+        Permission::create(['name' => 'update_user']);
+        Permission::create(['name' => 'delete_user']);
         //service_permissions
-        Permission::create(['name' => 'create service']);
-        Permission::create(['name' => 'read service']);
-        Permission::create(['name' => 'update service']);
-        Permission::create(['name' => 'delete service']);
+        Permission::create(['name' => 'create_service']);
+        Permission::create(['name' => 'update_service']);
+        Permission::create(['name' => 'delete_service']);
+        //reservation_permissions
+        Permission::create(['name' => 'create_reservation']);
+        Permission::create(['name' => 'read_reservation']);
+        Permission::create(['name' => 'update_reservation']);
+        Permission::create(['name' => 'delete_reservation']);
+        //timing_permissions
+        Permission::create(['name' => 'create_timing']);
+        Permission::create(['name' => 'read_timing']);
+        Permission::create(['name' => 'update_timing']);
+        Permission::create(['name' => 'delete_timing']);
 
         //ROLES
-        //Super_Admin
-        $Super_Admin = Role::where('name', 'Super_Admin')->exists();
-        if (!$Super_Admin) {
-            $Super_Admin = Role::create(['name' => 'Super_Admin']);
-        }
         //Admin_Role
         $Admin = Role::where('name', 'Admin')->exists();
         if (!$Admin) {
             $Admin = Role::create(['name' => 'Admin']);
         }
+        $User = Role::where('name', 'User')->exists();
+        if (!$User) {
+            $User = Role::create(['name' => 'User']);
+        }
 
         //SYNCING_PERMISSIONS
-        $Super_Admin->syncPermissions([
-            'create user',
-            'read user',
-            'update user',
-            'delete user',
-            'create service',
-            'read service',
-            'update service',
-            'delete service',
-        ]);
         $Admin->syncPermissions([
-            'create user',
-            'read user',
-            'update user',
-            'delete user',
-            'create service',
-            'read service',
-            'update service',
-            'delete service',
+            'create_user',
+            'read_user',
+            'update_user',
+            'delete_user',
+            'create_service',
+            'read_service',
+            'update_service',
+            'delete_service',
+            'create_reservation',
+            'read_reservation',
+            'update_reservation',
+            'delete_reservation',
+            'create_timing',
+            'read_timing',
+            'update_timing',
+            'delete_timing',
+        ]);
+        $User->syncPermissions([
+            ''
         ]);
 
-        //CREATE_USER
-        //Super_Admin
-        $Super_Admin = User::create([
-            'full_name' => 'hesam ardestani',
+        //CREATE_USERS
+        //Admin
+        $Admin = User::create([
+            'full_name' => 'hesam',
             'phone_number' => '09036867339',
             'password' => 'hesamam',
         ]);
-        $Super_Admin->assignRole('Super_Admin');
-        //Admin
-        $Admin = User::create([
-            'full_name' => 'jojo kuchulu',
-            'phone_number' => '09127777777',
-            'password' => 'jojoam',
-        ]);
         $Admin->assignRole('Admin');
+        //User
+        $User = User::create([
+            'full_name' => 'jojo',
+            'phone_number' => '09127777777',
+            'password' => 'jojoam'
+        ]);
+        $User->assignRole('User');
     }
 }

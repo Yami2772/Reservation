@@ -9,10 +9,14 @@ class ServiceController extends Controller
 {
     public function create(Request $request)
     {
-        $Service = Service::create($request->toArray());
-        $Service->timings()->attach($request->timing_ids);
+        if ($request->user()->hasRole('Admin')) {
+            $Service = Service::create($request->toArray());
+            $Service->timings()->attach($request->timing_ids);
 
-        return response()->json($Service);
+            return response()->json($Service);
+        } else {
+            return response()->json('You do not have the permission to access this part!');
+        }
     }
 
     public function read($id = null)
@@ -22,31 +26,38 @@ class ServiceController extends Controller
         } else {
             $Service = Service::paginate(5);
         }
-
         return response()->json($Service);
     }
 
     public function update(Request $request, $id)
     {
-        $Service = Service::where('id', $id)->first();
-        if (!$Service) {
-            return response()->json('Service not found!');
+        if ($request->user()->hasRole('Admin')) {
+            $Service = Service::where('id', $id)->first();
+            if (!$Service) {
+                return response()->json('Service not found!');
+            } else {
+                $Service->update($request->toArray());
+                $Service->timings()->attach($request->timing_ids);
+            }
+            return response()->json($Service);
         } else {
-            $Service->update($request->toArray());
-            $Service->timings()->attach($request->timing_ids);
+            return response()->json('You do not have the permission to access this part!');
         }
-
-        return response()->json($Service);
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $Service = Service::where('id', $id)->first();
-        if ($Service) {
-            $Service->delete();
-            return response()->json('Service deleted successfully!');
+        $id = $request->id;
+        if ($request->user()->hasRole('Admin')) {
+            $Service = Service::where('id', $id)->first();
+            if ($Service) {
+                $Service->delete();
+                return response()->json('Service deleted successfully!');
+            } else {
+                return response()->json('Service not found!');
+            }
         } else {
-            return response()->json('Service not found!');
+            return response()->json('You do not have the permission to access this part!');
         }
     }
 }

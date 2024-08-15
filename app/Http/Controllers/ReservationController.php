@@ -15,7 +15,6 @@ class ReservationController extends Controller
     public function create(Request $request)
     {
         $Reservation = Reservation::create($request->toArray());
-
         return response()->json($Reservation);
     }
 
@@ -26,7 +25,6 @@ class ReservationController extends Controller
         } else {
             $Reservation = Reservation::paginate(5);
         }
-
         return response()->json($Reservation);
     }
 
@@ -38,7 +36,6 @@ class ReservationController extends Controller
         } else {
             $Reservation->update($request->toArray());
         }
-
         return response()->json($Reservation);
     }
 
@@ -74,7 +71,6 @@ class ReservationController extends Controller
                 $ReservationStatus[$date][$time] = $reservations;
             }
         }
-
         return response()->json($ReservationStatus);
     }
 }
