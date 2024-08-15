@@ -13,9 +13,8 @@ class UserController extends Controller
         if ($id) {
             $User = User::where('id', $id)->first();
         } else {
-            $User = User::get();
+            $User = User::paginate(10);
         }
-
         return response()->json($User);
     }
 
@@ -29,8 +28,7 @@ class UserController extends Controller
                 ->merge(["Password" => Hash::make($request->Password)])
                 ->toArray());
         }
-
-        return response()->json($User);
+        return response()->json('User edited successfully!');
     }
 
     public function delete($id)
