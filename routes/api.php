@@ -49,7 +49,8 @@ Route::prefix('services')->middleware('auth:sanctum')->group(function () {
     //service's_create
     Route::post('create', [ServiceController::class, 'create'])->name('create');
     //service's_read
-    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read')
+    ->withoutMiddleware('auth:sanctum');
     //service's_update
     Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
     //service's_delete
