@@ -23,7 +23,7 @@ class CheckReservationsRequest extends FormRequest
     {
         return [
             "from" => 'required|date_format:Y-m-d',
-            "service_id" => 'required|integer|digits_between:1,1000'
+            "service_id" => 'required|exists:services,id|digits_between:1,1000'
         ];
     }
 }

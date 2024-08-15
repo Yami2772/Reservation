@@ -56,10 +56,10 @@ class ReservationController extends Controller
     public function checkReservations(CheckReservationsRequest $request)
     {
         $from = $request->from;
-        $service_id = $request->service_id;
         $from = Carbon::parse($from);
+        $service_id = $request->service_id;
         $service = Service::findOrFail($service_id);
-        $timings = $service->timings()->pluck('start_time')->toArray();
+        $timings = $service->timings()->pluck('id')->toArray();
         $ReservationStatus = [];
 
         for ($x = 0; $x < 7; $x++) {
@@ -68,6 +68,7 @@ class ReservationController extends Controller
             foreach ($timings as $time) {
                 $reservations = Reservation::where('service_id', $service_id)
                     ->whereDate('date', $date)
+                    ->where('timing_id', $time)
                     ->exists();
 
                 $ReservationStatus[$date][$time] = $reservations;
