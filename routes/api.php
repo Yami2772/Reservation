@@ -70,7 +70,7 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     //reservation's_delete
     Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('delete');
     //ckeck_reservation
-    Route::get('check/{service_id}/{from}', [ReservationController::class, 'checkReservations'])->name('check')
+    Route::post('check', [ReservationController::class, 'checkReservations'])->name('check')
         ->withoutMiddleware('auth:sanctum');
 });
 

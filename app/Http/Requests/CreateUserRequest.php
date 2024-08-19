@@ -23,7 +23,7 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'full_name' => 'required|max:30',
-            'phone_number' => 'required|digits:11|numeric',
+            'phone_number' => 'required|digits:11|numeric|unique',
             'password' => 'required|min:8'
         ];
     }
