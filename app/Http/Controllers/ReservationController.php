@@ -5,48 +5,65 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckReservationsRequest;
 use App\Models\Reservation;
 use App\Models\Service;
-use App\Models\Timing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Monolog\Handler\WhatFailureGroupHandler;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
     public function create(Request $request)
     {
-        $Reservation = Reservation::create($request->toArray());
-        return response()->json($Reservation);
+        if ($request->user()->hasRole(['User', 'Admin'])) {
+            $Reservation = Reservation::create($request->toArray());
+            return response()->json($Reservation);
+        } else {
+            return response()->json('You do not have the permission to access this part!');
+        }
     }
 
-    public function read($id = null)
+    public function read(Request $request, $id = null)
     {
-        if ($id) {
-            $Reservation = Reservation::where('id', $id)->first();
+        if ($request->user()->hasRole('Admin')) {
+            if ($id) {
+                $Reservation = Reservation::where('id', $id)->first();
+            } else {
+                $Reservation = Reservation::paginate(5);
+            }
+            return response()->json($Reservation);
+        } elseif ($request->user()->hasRole('User')) {
+            $User = Auth::user();
+            $Reservation = Reservation::where('user_id', $User['id'])->paginate(5);
+            return response()->json($Reservation);
         } else {
-            $Reservation = Reservation::paginate(5);
+            return response()->json('You do not have the permission to access this part!');
         }
-        return response()->json($Reservation);
     }
 
     public function update(Request $request, $id)
     {
-        $Reservation = Reservation::where('id', $id)->first();
-        if (!$Reservation) {
-            return response()->json('Reservation not found!');
+        if ($request->user()->hasRole('User')) {
+            $Reservation = Reservation::where('id', $id)->first();
+            if (!$Reservation) {
+                return response()->json('Reservation not found!');
+            } else {
+                $Reservation->update($request->toArray());
+            }
+            return response()->json($Reservation);
         } else {
-            $Reservation->update($request->toArray());
+            return response()->json('You do not have the permission to access this part!');
         }
-        return response()->json($Reservation);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $Reservation = Reservation::where('id', $id)->first();
-        if ($Reservation) {
-            $Reservation->delete();
-            return response()->json('Reservation deleted successfully!');
-        } else {
-            return response()->json('Reservation not found!');
+        if ($request->user()->hasRole('Admin')) {
+            $Reservation = Reservation::where('id', $id)->first();
+            if ($Reservation) {
+                $Reservation->delete();
+                return response()->json('Reservation deleted successfully!');
+            } else {
+                return response()->json('Reservation not found!');
+            }
         }
     }
 
@@ -58,16 +75,13 @@ class ReservationController extends Controller
         $service = Service::findOrFail($service_id);
         $timings = $service->timings()->pluck('id')->toArray();
         $ReservationStatus = [];
-
         for ($x = 0; $x < 7; $x++) {
             $date = $from->copy()->addDays($x)->format('Y-m-d');
-
             foreach ($timings as $time) {
                 $reservations = Reservation::where('service_id', $service_id)
                     ->whereDate('date', $date)
                     ->where('timing_id', $time)
                     ->exists();
-
                 $ReservationStatus[$date][$time] = $reservations;
             }
         }
