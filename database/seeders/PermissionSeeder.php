@@ -54,7 +54,6 @@ class PermissionSeeder extends Seeder
             'update_user',
             'delete_user',
             'create_service',
-            'read_service',
             'update_service',
             'delete_service',
             'create_reservation',
@@ -67,7 +66,13 @@ class PermissionSeeder extends Seeder
             'delete_timing',
         ]);
         $User->syncPermissions([
-            ''
+            'read_user',
+            'update_user',
+            'delete_user',
+            'create_reservation',
+            'read_reservation',
+            'update_reservation',
+            'delete_reservation',
         ]);
 
         //CREATE_USERS
