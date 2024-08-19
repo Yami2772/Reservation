@@ -12,7 +12,6 @@ class ServiceController extends Controller
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::create($request->toArray());
             $Service->timings()->attach($request->timing_ids);
-
             return response()->json($Service);
         } else {
             return response()->json('You do not have the permission to access this part!');
@@ -24,7 +23,7 @@ class ServiceController extends Controller
         if ($id) {
             $Service = Service::where('id', $id)->first();
         } else {
-            $Service = Service::paginate(5);
+            $Service = Service::get();
         }
         return response()->json($Service);
     }
