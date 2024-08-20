@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('service_id');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

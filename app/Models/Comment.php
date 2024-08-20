@@ -15,6 +15,7 @@ class Comment extends Model
         'description',
         'user_id',
         'service_id',
+        'status',giti
     ];
 
     public function user(): BelongsTo
