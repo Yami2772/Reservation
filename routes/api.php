@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
@@ -37,58 +38,71 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
 //users
 Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     //user's_list
-    Route::get('index/{id?}', [UserController::class, 'index'])->name('index');
+    Route::get('index/{id?}', [UserController::class, 'index'])->name('user_index');
     //user's_edit
-    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
+    Route::put('edit/{id}', [UserController::class, 'edit'])->name('user_edit');
     //user's_delete
-    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user_delete');
 });
 
 //services
 Route::prefix('services')->middleware('auth:sanctum')->group(function () {
     //service's_create
-    Route::post('create', [ServiceController::class, 'create'])->name('create');
+    Route::post('create', [ServiceController::class, 'create'])->name('service_create');
     //service's_read
-    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('read')
-    ->withoutMiddleware('auth:sanctum');
+    Route::get('index/{id?}', [ServiceController::class, 'read'])->name('service_read')
+        ->withoutMiddleware('auth:sanctum');
     //service's_update
-    Route::put('update/{id}', [ServiceController::class, 'update'])->name('update');
+    Route::put('update/{id}', [ServiceController::class, 'update'])->name('service_update');
     //service's_delete
-    Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('service_delete');
 });
 
 //reservations
 Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     //reservation's_create
-    Route::post('create', [ReservationController::class, 'create'])->name('create');
+    Route::post('create', [ReservationController::class, 'create'])->name('reservation_create');
     //reservation's_read
-    Route::get('index/{id?}', [ReservationController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [ReservationController::class, 'read'])->name('reservation_read');
     //reservation's_update
-    Route::put('update/{id}', [ReservationController::class, 'update'])->name('update');
+    Route::put('update/{id}', [ReservationController::class, 'update'])->name('reservation_update');
     //reservation's_delete
-    Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('reservation_delete');
     //ckeck_reservation
-    Route::post('check', [ReservationController::class, 'checkReservations'])->name('check')
+    Route::post('check', [ReservationController::class, 'checkReservations'])->name('check_reservation')
         ->withoutMiddleware('auth:sanctum');
 });
 
 //timings
 Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
     //timing's_create
-    Route::post('create', [TimingController::class, 'create'])->name('create_timing');
+    Route::post('create', [TimingController::class, 'create'])->name('timing_create');
     //timing's_read
-    Route::get('index', [TimingController::class, 'read'])->name('read_timing');
+    Route::get('index', [TimingController::class, 'read'])->name('timing_read');
     //reservation's_update
-    Route::put('update/{id}', [TimingController::class, 'update'])->name('update_timing');
+    Route::put('update/{id}', [TimingController::class, 'update'])->name('timing_timing');
 });
+
 //settings
 Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create
-    Route::post('create', [SettingController::class, 'create'])->name('create');
+    Route::post('create', [SettingController::class, 'create'])->name('setting_create');
     //setting's_read
-    Route::get('index/{id?}', [SettingController::class, 'read'])->name('read');
+    Route::get('index/{id?}', [SettingController::class, 'read'])->name('setting_read');
     //setting's_update
-    Route::put('update/{id}', [SettingController::class, 'update'])->name('update');
+    Route::put('update/{id}', [SettingController::class, 'update'])->name('setting_update');
     //setting's_delete
-    Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('delete');
+    Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('setting_delete');
+});
+
+//comments
+Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
+    //comment's_create
+    Route::post('create', [CommentController::class, 'create'])->name('comment_create');
+    //comment's_read
+    Route::get('read', [CommentController::class, 'read'])->name('comment_read');
+    //comment's_approval
+    Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
+    //comment's_delete
+    Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
 });
