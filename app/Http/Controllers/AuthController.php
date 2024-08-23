@@ -16,6 +16,7 @@ class AuthController extends Controller
         $User = User::create($request
             ->merge(["password" => Hash::make($request->password)])
             ->toArray());
+        $User->assignRole('User');
         return response()->json($User);
     }
 
@@ -39,6 +40,7 @@ class AuthController extends Controller
         }
 
         if ($type == 'code_request') {
+            Code::where('phone_number', $request->phone_number)->delete();
             $code = rand(1000, 9999);
             $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $data = Code::create($request
@@ -51,7 +53,7 @@ class AuthController extends Controller
         }
 
         if ($type == 'code_confirm') {
-            $code = Code::select('phone_number', 'code', 'created_at', 'expiration_time')
+            $code = Code::select('phone_number', 'code', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
                 ->first();
             $now = Carbon::now()->format('Y-m-d H:i:s');
