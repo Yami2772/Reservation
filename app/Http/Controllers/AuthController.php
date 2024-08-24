@@ -28,18 +28,14 @@ class AuthController extends Controller
             ->first();
         if (!$User) {
             return response()->json('User not found!');
-        }
-
-        if ($type == 'with_password') {
+        } elseif ($type == 'with_password') {
             if (!Hash::check($request->password, $User->password)) {
                 return response()->json('Password is INCORRECT!');
             } else {
                 $Token = $User->createToken($request->phone_number)->plainTextToken;
             }
             return response()->json(["Token" => $Token]);
-        }
-
-        if ($type == 'code_request') {
+        } elseif ($type == 'code_request') {
             Code::where('phone_number', $request->phone_number)->delete();
             $code = rand(1000, 9999);
             $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
@@ -50,9 +46,7 @@ class AuthController extends Controller
                 ])
                 ->toArray());
             return response()->json(["code" => $data]);
-        }
-
-        if ($type == 'code_confirm') {
+        } elseif ($type == 'code_confirm') {
             $code = Code::select('phone_number', 'code', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
                 ->first();
@@ -69,6 +63,8 @@ class AuthController extends Controller
             } else {
                 return response()->json('The code is EXPIRED!');
             }
+        } else {
+            return response()->json('type not found');
         }
     }
 
