@@ -17,10 +17,9 @@ class SettingController extends Controller
         }
     }
 
-    public function read(Request $request)
+    public function read(Request $request, $key)
     {
         if ($request->user()->hasRole('Admin')) {
-            $key = $request->key;
             if ($key) {
                 $Setting = Setting::where('key', $key)->first();
             } else {
@@ -32,10 +31,9 @@ class SettingController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $key)
     {
         if ($request->user()->hasRole('Admin')) {
-            $key = $request->key;
             $Setting = Setting::where('key', $key);
             if (!$Setting) {
                 return response()->json('Setting not found!');
@@ -48,10 +46,9 @@ class SettingController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, $key)
     {
         if ($request->user()->hasRole('Admin')) {
-            $key = $request->key;
             $Setting = Setting::where('key', $key)->first();
             if ($Setting) {
                 $Setting->delete();
