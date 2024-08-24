@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
@@ -88,11 +89,11 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('setting_create');
     //setting's_read
-    Route::get('index/{id?}', [SettingController::class, 'read'])->name('setting_read');
+    Route::get('index/{key?}', [SettingController::class, 'read'])->name('setting_read');
     //setting's_update
-    Route::put('update/{id}', [SettingController::class, 'update'])->name('setting_update');
+    Route::put('update/{key}', [SettingController::class, 'update'])->name('setting_update');
     //setting's_delete
-    Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('setting_delete');
+    Route::delete('delete/{key}', [SettingController::class, 'delete'])->name('setting_delete');
 });
 
 //comments
@@ -105,4 +106,16 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
     Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
     //comment's_delete
     Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
+});
+
+//pages
+Route::prefix('pages')->middleware('auth:sanctum')->group(function () {
+    //page's_create
+    Route::post('create', [PageController::class, 'create'])->name('page_create');
+    //page's_read
+    Route::get('index/{id?}', [PageController::class, 'read'])->name('page_read');
+    //page's_update
+    Route::put('update/{id}', [PageController::class, 'update'])->name('page_update');
+    //page's_delete
+    Route::delete('delete/{id}', [PageController::class, 'delete'])->name('page_delete');
 });
