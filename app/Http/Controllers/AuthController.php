@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\Code;
 use App\Models\User;
 use Carbon\Carbon;
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    public function register(CreateUserRequest $request)
     {
         $User = User::create($request
             ->merge(["password" => Hash::make($request->password)])
@@ -20,7 +22,7 @@ class AuthController extends Controller
         return response()->json($User);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $type = $request->type;
         $User = User::select('id', 'phone_number', 'password')
