@@ -9,7 +9,6 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TimingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use PHPUnit\Runner\ClassCannotBeFoundException;
 
 /*
 |--------------------------------------------------------------------------
