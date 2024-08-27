@@ -43,6 +43,8 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('user_edit');
     //user's_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user_delete');
+    //avatar_upload
+    Route::post('avatar_upload',[UserController::class, 'avatarUpload'])->name('avatar_upload');
 });
 
 //services

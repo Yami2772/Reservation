@@ -55,11 +55,12 @@ class UserController extends Controller
         }
     }
 
-    public function profileUpload(Request $request)
+    public function avatarUpload(Request $request)
     {
         if ($request->user()->hasRole('User')) {
             $user = Auth::user();
-            User::find($user['id'])->addMediaFromRequest()->toMediaCollection('Avatars');
+            User::find($user['id'])->addMediaFromRequest('avatar')->toMediaCollection('Avatars');
+            return response()->json('avatar set successfully!');
         } else {
             return response()->json('You do not have the permission to access this part!');
         }
