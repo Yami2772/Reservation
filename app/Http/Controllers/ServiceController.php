@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function create(Request $request)
+    public function create(CreateServiceRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::create($request->toArray());

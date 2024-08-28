@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ServiceType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class CreateServiceRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class CreateServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,10 @@ class CreateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|alpha:ascii',
+            'price' => 'required|numeric|max_digits:8',
+            'description' => 'required|array',
+            'type' => ['required', new Enum(ServiceType::class)],
         ];
     }
 }
