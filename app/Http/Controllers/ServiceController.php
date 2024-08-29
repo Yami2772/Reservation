@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateServiceRequest;
+use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -46,10 +46,10 @@ class ServiceController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(DeleteRequest $request)
     {
-        $id = $request->id;
         if ($request->user()->hasRole('Admin')) {
+            $id = $request->id;
             $Service = Service::where('id', $id)->first();
             if ($Service) {
                 $Service->delete();

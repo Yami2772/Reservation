@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckReservationsRequest;
+use App\Http\Requests\DeleteRequest;
 use App\Models\Reservation;
 use App\Models\Service;
 use Carbon\Carbon;
@@ -41,7 +42,7 @@ class ReservationController extends Controller
 
     public function update(Request $request, $id)
     {
-        if ($request->user()->hasRole('User')) {
+        if ($request->user()->hasRole(['Admin', 'User'])) {
             $Reservation = Reservation::where('id', $id)->first();
             if (!$Reservation) {
                 return response()->json('Reservation not found!');
@@ -54,9 +55,10 @@ class ReservationController extends Controller
         }
     }
 
-    public function delete(Request $request, $id)
+    public function delete(DeleteRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
+            $id = $request->id;
             $Reservation = Reservation::where('id', $id)->first();
             if ($Reservation) {
                 $Reservation->delete();
