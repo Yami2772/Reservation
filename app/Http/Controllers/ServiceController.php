@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateServiceRequest;
+use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,7 @@ class ServiceController extends Controller
         return response()->json($Service);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateServiceRequest $request, $id)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::where('id', $id)->first();
