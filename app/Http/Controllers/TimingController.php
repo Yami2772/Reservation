@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateAndUpdateTimingRequest;
 use App\Models\Timing;
 use Illuminate\Http\Request;
 
 class TimingController extends Controller
 {
-    public function create(Request $request)
+    public function create(CreateAndUpdateTimingRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
             $timing = Timing::create($request->toArray());
@@ -27,7 +28,7 @@ class TimingController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(CreateAndUpdateTimingRequest $request, $id)
     {
         if ($request->user()->hasRole('Admin')) {
             $timing = Timing::where('id', $id);

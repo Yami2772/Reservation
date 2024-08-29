@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TimingStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class CreateAndUpdateTimingRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class CreateAndUpdateTimingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,9 @@ class CreateAndUpdateTimingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s',
+            'status' => ['required',new Enum(TimingStatus::class)],
         ];
     }
 }
