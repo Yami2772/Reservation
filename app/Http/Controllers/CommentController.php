@@ -30,9 +30,10 @@ class CommentController extends Controller
         return response()->json($comments);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
         if ($request->user()->hasRole('Admin')) {
+            $id = $request->id;
             $comment = Comment::where('id', $id)->first();
             if ($comment) {
                 $comment->delete();
@@ -46,18 +47,20 @@ class CommentController extends Controller
 
     public function CommentApproval(Request $request, $id)
     {
-        $comment = Comment::where('id', $id)->first();
-        if (!$comment) {
-            return response()->json('Comment not found!');
-        } else {
-            $comment = $comment->update($request->merge([
-                "score" => $comment['score'],
-                "description" => $comment['descriptuon'],
-                "user_id" => $comment['user_id'],
-                "service_id" => $comment['service_id'],
-                "status" => true,
-            ]));
-            return response()->json($comment);
+        if ($request->user()->hasRole('Admin')) {
+            $comment = Comment::where('id', $id)->first();
+            if (!$comment) {
+                return response()->json('Comment not found!');
+            } else {
+                $comment = $comment->update($request->merge([
+                    "score" => $comment['score'],
+                    "description" => $comment['descriptuon'],
+                    "user_id" => $comment['user_id'],
+                    "service_id" => $comment['service_id'],
+                    "status" => true,
+                ]));
+                return response()->json($comment);
+            }
         }
     }
 }

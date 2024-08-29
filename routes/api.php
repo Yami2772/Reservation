@@ -44,7 +44,7 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     //user's_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user_delete');
     //avatar_upload
-    Route::post('avatar_upload',[UserController::class, 'avatarUpload'])->name('avatar_upload');
+    Route::post('avatar_upload', [UserController::class, 'avatarUpload'])->name('avatar_upload');
 });
 
 //services
@@ -102,7 +102,8 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
     //comment's_create
     Route::post('create', [CommentController::class, 'create'])->name('comment_create');
     //comment's_read
-    Route::get('read', [CommentController::class, 'read'])->name('comment_read');
+    Route::get('read', [CommentController::class, 'read'])->name('comment_read')
+        ->withoutMiddleware('auth:sanctum');
     //comment's_approval
     Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
     //comment's_delete
