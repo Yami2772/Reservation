@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateServiceRequest;
+use App\Http\Requests\CreateAndUpdateServiceRequest;
 use App\Http\Requests\DeleteRequest;
-use App\Http\Requests\UpdateServiceRequest;
 use App\Models\Service;
 
 class ServiceController extends Controller
 {
-    public function create(CreateServiceRequest $request)
+    public function create(CreateAndUpdateServiceRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::create($request->toArray());
@@ -30,7 +29,7 @@ class ServiceController extends Controller
         return response()->json($Service);
     }
 
-    public function update(UpdateServiceRequest $request, $id)
+    public function update(CreateAndUpdateServiceRequest $request, $id)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::where('id', $id)->first();

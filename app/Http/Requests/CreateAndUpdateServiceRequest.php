@@ -6,7 +6,7 @@ use App\Enums\ServiceType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
-class UpdateServiceRequest extends FormRequest
+class CreateAndUpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
