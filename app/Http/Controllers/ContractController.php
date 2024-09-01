@@ -12,7 +12,9 @@ class ContractController extends Controller
     public function create(Request $request)
     {
         if ($request->user()->hasRole(['Amin', 'User'])) {
-            $Contract = Contract::create($request->toArray());
+            $Contract = Contract::create($request
+            ->merge(["status" => "accepted"])
+            ->toArray());
             return response()->json($Contract);
         } else {
             return response()->json('You do not have the permission to access this part!');

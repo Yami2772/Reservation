@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('service_id');
             $table->unsignedBigInteger('timing_id');
             $table->json('reservation_ids');
+            $table->enum('status', ['accepted', 'declined']);
             $table->timestamps();
         });
     }
