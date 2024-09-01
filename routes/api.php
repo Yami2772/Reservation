@@ -71,7 +71,7 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     //reservation's_delete
     Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('reservation_delete');
     //ckeck_reservation
-    Route::post('check', [ReservationController::class, 'checkReservations'])->name('check_reservation')
+    Route::post('check_reservations_of_week', [ReservationController::class, 'checkReservationsOfWeek'])->name('check_reservation')
         ->withoutMiddleware('auth:sanctum');
 });
 

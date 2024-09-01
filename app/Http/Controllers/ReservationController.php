@@ -69,7 +69,7 @@ class ReservationController extends Controller
         }
     }
 
-    public function checkReservations(CheckReservationsRequest $request)
+    public function checkReservationsOfWeek(CheckReservationsRequest $request)
     {
         $from = $request->from;
         $from = Carbon::parse($from);
@@ -91,5 +91,9 @@ class ReservationController extends Controller
             }
         }
         return response()->json($ReservationStatus);
+    }
+
+    public function reservationStatus(Request $request){
+
     }
 }
