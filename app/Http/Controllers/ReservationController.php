@@ -6,6 +6,7 @@ use App\Http\Requests\CheckReservationsRequest;
 use App\Http\Requests\DeleteRequest;
 use App\Models\Reservation;
 use App\Models\Service;
+use App\Models\Timing;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +94,29 @@ class ReservationController extends Controller
         return response()->json($ReservationStatus);
     }
 
-    public function reservationStatus(Request $request){
-
+    public function checkReservationOfMonth(Request $request)
+    {
+        $from = $request->from;
+        $from = Carbon::parse($from);
+        $timing_id = $request->timing_id;
+        $timing = Timing::find($timing_id);
+        if (!$timing) {
+            return response()->json('Timing not found', 404);
+        }
+        $service_id = $request->service_id;
+        $service = Service::find($service_id);
+        if (!$service) {
+            return response()->json('service_id not found', 404);
+        }
+        $ReservationStatus = [];
+        for ($x = 0; $x < 30; $x++) {
+            $date = $from->copy()->addDays($x)->format('Y-m-d');
+            $reservations = Reservation::where('service_id', $service->id) //could have used $service['id'] too
+                ->where('timing_id', $timing->id) //could have used $timing['id'] too
+                ->whereDate('date', $date)
+                ->exists();
+            $ReservationStatus[$date] = $reservations;
+        }
+        return response()->json($ReservationStatus);
     }
 }
