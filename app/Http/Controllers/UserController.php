@@ -15,7 +15,7 @@ class UserController extends Controller
             if ($id) {
                 $User = User::where('id', $id)->first();
             } else {
-                $User = User::paginate(10);
+                $User = User::paginate(10)->orderBy('id','desc');
             }
             return response()->json($User);
         } else {

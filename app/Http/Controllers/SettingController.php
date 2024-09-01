@@ -23,7 +23,7 @@ class SettingController extends Controller
             if ($key) {
                 $Setting = Setting::where('key', $key)->first();
             } else {
-                $Setting = Setting::paginate(5);
+                $Setting = Setting::paginate(5)->orderBy('id','desc');
             }
             return response()->json($Setting);
         } else {

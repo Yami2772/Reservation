@@ -28,7 +28,7 @@ class ReservationController extends Controller
             if ($id) {
                 $Reservation = Reservation::where('id', $id)->first();
             } else {
-                $Reservation = Reservation::paginate(5);
+                $Reservation = Reservation::paginate(5)->orderBy('id','desc');
             }
             return response()->json($Reservation);
         } elseif ($request->user()->hasRole('User')) {
