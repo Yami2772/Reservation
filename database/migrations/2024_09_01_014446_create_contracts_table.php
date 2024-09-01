@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('timing_id');
+            $table->json('reservation_ids');
             $table->timestamps();
         });
     }
