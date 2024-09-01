@@ -33,7 +33,7 @@ class ReservationController extends Controller
             return response()->json($Reservation);
         } elseif ($request->user()->hasRole('User')) {
             $User = Auth::user();
-            $Reservation = Reservation::where('user_id', $User['id'])->paginate(5);
+            $Reservation = Reservation::where('user_id', $User['id'])->first();
             return response()->json($Reservation);
         } else {
             return response()->json('You do not have the permission to access this part!');
