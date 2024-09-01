@@ -28,7 +28,7 @@ class ReservationController extends Controller
             if ($id) {
                 $Reservation = Reservation::where('id', $id)->first();
             } else {
-                $Reservation = Reservation::paginate(5)->orderBy('id','desc');
+                $Reservation = Reservation::paginate(5)->orderBy('id', 'desc');
             }
             return response()->json($Reservation);
         } elseif ($request->user()->hasRole('User')) {
@@ -74,7 +74,10 @@ class ReservationController extends Controller
         $from = $request->from;
         $from = Carbon::parse($from);
         $service_id = $request->service_id;
-        $service = Service::findOrFail($service_id);
+        $service = Service::find($service_id);
+        if (!$service) {
+            return response()->json('service_id not found', 404);
+        }
         $timings = $service->timings()->pluck('id')->toArray();
         $ReservationStatus = [];
         for ($x = 0; $x < 7; $x++) {
