@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckReservationsRequest;
+use App\Http\Requests\CreateAndUpdateReservationRequest;
 use App\Http\Requests\DeleteRequest;
 use App\Models\Reservation;
 use App\Models\Service;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
-    public function create(Request $request)
+    public function create(CreateAndUpdateReservationRequest $request)
     {
         if ($request->user()->hasRole(['User', 'Admin'])) {
             $Reservation = Reservation::create($request->toArray());
@@ -41,7 +42,7 @@ class ReservationController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(CreateAndUpdateReservationRequest $request, $id)
     {
         if ($request->user()->hasRole(['Admin', 'User'])) {
             $Reservation = Reservation::where('id', $id)->first();
