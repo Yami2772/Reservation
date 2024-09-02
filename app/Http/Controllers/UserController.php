@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -50,17 +49,6 @@ class UserController extends Controller
             } else {
                 return response()->json('User not found!');
             }
-        } else {
-            return response()->json('You do not have the permission to access this part!');
-        }
-    }
-
-    public function avatarUpload(Request $request)
-    {
-        if ($request->user()->hasRole('User')) {
-            $user = Auth::user();
-            User::find($user['id'])->addMediaFromRequest('avatar')->toMediaCollection('Avatars');
-            return response()->json('avatar set successfully!');
         } else {
             return response()->json('You do not have the permission to access this part!');
         }
