@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
@@ -43,8 +44,6 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('user_edit');
     //user's_delete
     Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user_delete');
-    //avatar_upload
-    Route::post('avatar_upload', [UserController::class, 'avatarUpload'])->name('avatar_upload');
 });
 
 //services
@@ -122,4 +121,12 @@ Route::prefix('pages')->middleware('auth:sanctum')->group(function () {
     Route::put('update/{id}', [PageController::class, 'update'])->name('page_update');
     //page's_delete
     Route::delete('delete/{id}', [PageController::class, 'delete'])->name('page_delete');
+});
+
+//media
+Route::prefix('media')->middleware('auth:sanctum')->group(function () {
+    //avatar_upload
+    Route::post('avatar_upload', [MediaController::class, 'avatarUpload'])->name('avatar_upload');
+    //service_image_upload
+    Route::post('service_image_upload', [MediaController::class, 'serviceImageUpload'])->name('service_image_upload');
 });
