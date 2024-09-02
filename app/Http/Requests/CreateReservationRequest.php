@@ -26,6 +26,7 @@ class CreateReservationRequest extends FormRequest
             'timing_id' => 'required|digits_between:1,6',
             'user_id' => 'required|digits_between:1,1000',
             'date' => 'date_format:Y-m-d',
+            'in_contract' => 'nullable|boolean',
         ];
     }
 }
