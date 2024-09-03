@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +24,7 @@ class UserController extends Controller
         }
     }
 
-    public function edit(Request $request, $id)
+    public function edit(EditUserRequest $request, $id)
     {
         if ($request->user()->hasRole('Admin')) {
             $User = User::where('id', $id)->first();
@@ -39,10 +41,10 @@ class UserController extends Controller
         }
     }
 
-    public function delete(Request $request, $id)
+    public function delete(DeleteRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
-            $User = User::where('id', $id)->first();
+            $User = User::where('id', $request->id)->first();
             if ($User) {
                 $User->delete();
                 return response()->json('User deleted successfully!');

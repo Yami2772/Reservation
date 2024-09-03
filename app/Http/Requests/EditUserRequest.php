@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserSex;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
-class CreateUserRequest extends FormRequest
+class EditUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +24,11 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'required|max:30',
-            'phone_number' => 'required|digits:11|numeric|unique:users,phone_number',
-            'password' => 'required|min:8|password'
+            'full_name' => 'max:30',
+            'phone_number' => 'digits:11|numeric|unique:users,phone_number',
+            'password' => 'min:8|password',
+            'national_code' => 'numeric|digits:10|unique:users,national_code',
+            'sex' => [new Enum(UserSex::class)],
         ];
     }
 }

@@ -56,7 +56,7 @@ Route::prefix('services')->middleware('auth:sanctum')->group(function () {
     //service's_update
     Route::put('update/{id}', [ServiceController::class, 'update'])->name('service_update');
     //service's_delete
-    Route::delete('delete/{id}', [ServiceController::class, 'delete'])->name('service_delete');
+    Route::delete('delete', [ServiceController::class, 'delete'])->name('service_delete');
 });
 
 //reservations
