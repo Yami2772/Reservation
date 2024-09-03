@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
             'type' => ['required', new Enum(LoginType::class)],
             'phone_number' => 'required|numeric|digits:11',
             'password' => 'required_if:type,with_password',
-            'code' => 'required_if:type,with_password',
+            'code' => 'required_if:type,code_confirm',
         ];
     }
 }
