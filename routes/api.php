@@ -129,4 +129,12 @@ Route::prefix('media')->middleware('auth:sanctum')->group(function () {
     Route::post('avatar_upload', [MediaController::class, 'avatarUpload'])->name('avatar_upload');
     //service_image_upload
     Route::post('service_image_upload', [MediaController::class, 'serviceImageUpload'])->name('service_image_upload');
+    //about_us_header_image
+    Route::post('about_us_header_image', [MediaController::class, 'aboutUsHeaderImage'])->name('about_us_header_image');
+    //about_us_middle_image
+    Route::post('about_us_middle_image', [MediaController::class, 'aboutUsMiddleImage'])->name('about_us_middle_image');
+    //about_us_footer_image
+    Route::post('about_us_footer_image', [MediaController::class, 'aboutUsFooterImage'])->name('about_us_footer_image');
+    //logo
+    Route::post('logo', [MediaController::class, 'logo'])->name('logo');
 });
