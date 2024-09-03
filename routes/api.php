@@ -105,10 +105,12 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
     //comment's_read
     Route::get('read', [CommentController::class, 'read'])->name('comment_read')
         ->withoutMiddleware('auth:sanctum');
-    //comment's_approval
-    Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
     //comment's_delete
     Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
+    //comment's_approval
+    Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
+    //comment's_declining
+    Route::post('declining', [CommentController::class, 'CommentDeclining'])->name('comment_declining');
 });
 
 //pages
