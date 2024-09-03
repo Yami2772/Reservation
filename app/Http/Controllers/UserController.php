@@ -6,6 +6,7 @@ use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -16,7 +17,7 @@ class UserController extends Controller
             if ($id) {
                 $User = User::where('id', $id)->first();
             } else {
-                $User = User::paginate(10)->orderBy('id','desc');
+                $User = User::paginate(10)->orderBy('id', 'desc');
             }
             return response()->json($User);
         } else {
@@ -51,6 +52,10 @@ class UserController extends Controller
             } else {
                 return response()->json('User not found!');
             }
+        } elseif ($request->user()->hasRole('User')) {
+            $user = Auth::user();
+            User::where('id', $user->id)->delete();
+            return response()->json('User deleted successfully!');
         } else {
             return response()->json('You do not have the permission to access this part!');
         }
