@@ -25,7 +25,7 @@ class CreateAndUpdateReservationRequest extends FormRequest
             'service_id' => 'required|digits_between:1,1000',
             'timing_id' => 'required|digits_between:1,6',
             'user_id' => 'required|digits_between:1,1000',
-            'date' => 'date_format:Y-m-d',
+            'date' => 'required|date_format:Y-m-d',
             'in_contract' => 'nullable|boolean',
         ];
     }
