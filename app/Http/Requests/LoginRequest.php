@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\LoginType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class LoginRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|alpha_dash:ascii',
+            'type' => ['required', new Enum(LoginType::class)],
             'phone_number' => 'required|numeric|digits:11',
             'password' => 'required_if:type,with_password',
             'code' => 'required_if:type,confirm_password',
