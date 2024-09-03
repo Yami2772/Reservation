@@ -48,8 +48,7 @@ class ServiceController extends Controller
     public function delete(DeleteRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
-            $id = $request->id;
-            $Service = Service::where('id', $id)->first();
+            $Service = Service::where('id', $request->id)->first();
             if ($Service) {
                 $Service->delete();
                 return response()->json('Service deleted successfully!');

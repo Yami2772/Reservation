@@ -60,8 +60,7 @@ class ReservationController extends Controller
     public function delete(DeleteRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
-            $id = $request->id;
-            $Reservation = Reservation::where('id', $id)->first();
+            $Reservation = Reservation::where('id', $request->id)->first();
             if ($Reservation) {
                 $Reservation->delete();
                 return response()->json('Reservation deleted successfully!');

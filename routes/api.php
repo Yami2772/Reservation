@@ -43,7 +43,7 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     //user's_edit
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('user_edit');
     //user's_delete
-    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('user_delete');
+    Route::delete('delete', [UserController::class, 'delete'])->name('user_delete');
 });
 
 //services
@@ -68,7 +68,7 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     //reservation's_update
     Route::put('update/{id}', [ReservationController::class, 'update'])->name('reservation_update');
     //reservation's_delete
-    Route::delete('delete/{id}', [ReservationController::class, 'delete'])->name('reservation_delete');
+    Route::delete('delete', [ReservationController::class, 'delete'])->name('reservation_delete');
     //ckeck_reservation
     Route::post('check_reservations_of_week', [ReservationController::class, 'checkReservationsOfWeek'])
         ->name('check_reservations_of_week')->withoutMiddleware('auth:sanctum');
