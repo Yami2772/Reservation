@@ -16,7 +16,6 @@ class AuthController extends Controller
         $User = User::create($request
             ->merge(["password" => Hash::make($request->password)])
             ->toArray());
-
         return response()->json($User);
     }
 
@@ -48,10 +47,9 @@ class AuthController extends Controller
                     "expiration_time" => $expiration_time
                 ])
                 ->toArray());
-
             return response()->json(["code" => $data]);
         }
-        
+
         if ($type == 'code_confirm') {
             $code = Code::select('phone_number', 'code', 'created_at', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
@@ -75,7 +73,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
-
         return response()->json('User loggedout seccessfully!');
     }
 

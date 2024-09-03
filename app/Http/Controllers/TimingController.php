@@ -11,17 +11,14 @@ class TimingController extends Controller
 {
     public function create(Request $request)
     {
-        $Timing = Timing::create($request->toArray());
+        $timing = Timing::create($request->toArray());
 
-        return response()->json($Timing);
+        return response()->json($timing);
     }
-    public function read($id = null)
+
+    public function read()
     {
-        if ($id) {
-            $timing = Timing::where('id', $id)->first();
-        } else {
-            $timing = Timing::paginate(5);
-        }
+        $timing = Timing::get();
 
         return response()->json($timing);
     }
@@ -29,11 +26,12 @@ class TimingController extends Controller
     public function delete($id)
     {
         $timing = Timing::where('id', $id);
-        if ($timing) {
-            $timing->delete();
-            return response()->json('Timing deleted successfully!');
-        } else {
+        if (!$timing) {
             return response()->json('Timing not found!');
+        } else {
+            $timing->update($request->toArray());
         }
+
+        return response()->json('Timing updated successfully!');
     }
 }
