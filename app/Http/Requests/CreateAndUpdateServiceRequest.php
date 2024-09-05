@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ServiceType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
-class CreateUserRequest extends FormRequest
+class CreateAndUpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +24,11 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'full_name' => 'required|max:30',
-            'phone_number' => 'required|digits:11|numeric|unique:users,phone_number',
-            'password' => 'required|min:8|password'
+            'name' => 'required|string|max:50',
+            'price' => 'required|numeric|max_digits:8',
+            'description' => 'required|array',
+            'type' => ['required', new Enum(ServiceType::class)],
+            'timing_ids' => 'required|array',
         ];
     }
 }

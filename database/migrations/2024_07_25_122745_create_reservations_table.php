@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('timing_id');
             $table->unsignedBigInteger('user_id');
             $table->date('date');
+            $table->boolean('in_contract')->default(false);
             $table->timestamps();
         });
     }

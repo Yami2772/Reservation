@@ -20,7 +20,7 @@ class ServiceFactory extends Factory
             "name" => fake()->name(),
             "price" => fake()->randomNumber(),
             "description" => fake()->text(),
-            "type" => fake()->randomElement(['football','pool','futsal']),
+            "type" => fake()->randomElement(['Football','Pool','Footsal','Epical']),
         ];
     }
 }

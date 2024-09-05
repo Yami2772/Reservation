@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('price');
             $table->json('description');
-            $table->enum('type',['pool','football','epical','futsal']);
+            $table->enum('type',['Pool','Football','Epical','Footsal']);
             $table->timestamps();
         });
     }

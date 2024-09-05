@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TimingRequest;
-use App\Models\Service;
+use App\Http\Requests\CreateAndUpdateTimingRequest;
 use App\Models\Timing;
 use Illuminate\Http\Request;
 
 class TimingController extends Controller
 {
-    public function create(Request $request)
+    public function create(CreateAndUpdateTimingRequest $request)
     {
         $timing = Timing::create($request->toArray());
 
@@ -23,7 +22,7 @@ class TimingController extends Controller
         return response()->json($timing);
     }
 
-    public function delete($id)
+    public function update(Request $request, $id)
     {
         $timing = Timing::where('id', $id);
         if (!$timing) {

@@ -42,6 +42,11 @@ class Service extends Model
         return $this->hasMany(Reservation::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function timings(): BelongsToMany
     {
         return $this->belongsToMany(Timing::class);

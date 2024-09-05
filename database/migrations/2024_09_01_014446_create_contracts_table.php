@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('contracts', function (Blueprint $table) {
             $table->id();
-            $table->integer('score');
-            $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('service_id');
-            $table->enum('status', ['accepted', 'declined', 'neutral']);
+            $table->unsignedBigInteger('timing_id');
+            $table->json('reservation_ids');
+            $table->enum('status', ['accepted', 'declined']);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('contracts');
     }
 };

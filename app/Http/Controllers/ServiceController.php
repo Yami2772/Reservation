@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateAndUpdateServiceRequest;
+use App\Http\Requests\DeleteRequest;
 use App\Models\Service;
-use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
-    public function create(Request $request)
+    public function create(CreateAndUpdateServiceRequest $request)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::create($request->toArray());
@@ -23,12 +24,12 @@ class ServiceController extends Controller
         if ($id) {
             $Service = Service::where('id', $id)->first();
         } else {
-            $Service = Service::get();
+            $Service = Service::get()->orderBy('id','desc');
         }
         return response()->json($Service);
     }
 
-    public function update(Request $request, $id)
+    public function update(CreateAndUpdateServiceRequest $request, $id)
     {
         if ($request->user()->hasRole('Admin')) {
             $Service = Service::where('id', $id)->first();
@@ -44,11 +45,10 @@ class ServiceController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(DeleteRequest $request)
     {
-        $id = $request->id;
         if ($request->user()->hasRole('Admin')) {
-            $Service = Service::where('id', $id)->first();
+            $Service = Service::where('id', $request->id)->first();
             if ($Service) {
                 $Service->delete();
                 return response()->json('Service deleted successfully!');
