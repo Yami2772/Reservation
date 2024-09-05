@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SettingController;
@@ -95,4 +98,47 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
     Route::put('update/{id}', [SettingController::class, 'update'])->name('update');
     //setting's_delete
     Route::delete('delete/{id}', [SettingController::class, 'delete'])->name('delete');
+});
+
+//comments
+Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
+    //comment's_create
+    Route::post('create', [CommentController::class, 'create'])->name('comment_create');
+    //comment's_read
+    Route::get('read', [CommentController::class, 'read'])->name('comment_read')
+        ->withoutMiddleware('auth:sanctum');
+    //comment's_delete
+    Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
+    //comment's_approval
+    Route::post('approval', [CommentController::class, 'CommentApproval'])->name('comment_approval');
+    //comment's_declining
+    Route::post('declining', [CommentController::class, 'CommentDeclining'])->name('comment_declining');
+});
+
+//pages
+Route::prefix('pages')->middleware('auth:sanctum')->group(function () {
+    //page's_create
+    Route::post('create', [PageController::class, 'create'])->name('page_create');
+    //page's_read
+    Route::get('index/{id?}', [PageController::class, 'read'])->name('page_read');
+    //page's_update
+    Route::put('update/{id}', [PageController::class, 'update'])->name('page_update');
+    //page's_delete
+    Route::delete('delete/{id}', [PageController::class, 'delete'])->name('page_delete');
+});
+
+//media
+Route::prefix('media')->middleware('auth:sanctum')->group(function () {
+    //avatar_upload
+    Route::post('avatar_upload', [MediaController::class, 'avatarUpload'])->name('avatar_upload');
+    //service_image_upload
+    Route::post('service_image_upload', [MediaController::class, 'serviceImageUpload'])->name('service_image_upload');
+    //about_us_header_image
+    Route::post('about_us_header_image', [MediaController::class, 'aboutUsHeaderImage'])->name('about_us_header_image');
+    //about_us_middle_image
+    Route::post('about_us_middle_image', [MediaController::class, 'aboutUsMiddleImage'])->name('about_us_middle_image');
+    //about_us_footer_image
+    Route::post('about_us_footer_image', [MediaController::class, 'aboutUsFooterImage'])->name('about_us_footer_image');
+    //logo
+    Route::post('logo', [MediaController::class, 'logo'])->name('logo');
 });
