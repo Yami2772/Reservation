@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\LoginRequest;
+use App\Jobs\SendCode;
 use App\Models\Code;
 use App\Models\User;
 use Carbon\Carbon;
@@ -47,7 +48,8 @@ class AuthController extends Controller
                     "expiration_time" => $expiration_time
                 ])
                 ->toArray());
-            return response()->json(["code" => $data]);
+            SendCode::dispatch($User, $code);
+            return response()->json([$data, 'code sent successfully!']);
         } elseif ($type == 'code_confirm') {
             $code = Code::select('phone_number', 'code', 'expiration_time')
                 ->where('phone_number', $request->phone_number)
@@ -57,7 +59,6 @@ class AuthController extends Controller
                 if ($code['code'] == $request->code) {
                     $Token = $User->createToken($request->phone_number)->plainTextToken;
                     Code::where('code', $request->code)->delete();
-
                     return response()->json(["Token" => $Token]);
                 } else {
                     return response()->json('Code or phone number is INCORRECT');
@@ -66,7 +67,7 @@ class AuthController extends Controller
                 return response()->json('The code is EXPIRED!');
             }
         } else {
-            return response()->json('type not found');
+            return response()->json('type is incorrect!');
         }
     }
 
