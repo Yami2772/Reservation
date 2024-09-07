@@ -24,7 +24,7 @@ class ServiceController extends Controller
         if ($id) {
             $Service = Service::where('id', $id)->first();
         } else {
-            $Service = Service::get()->orderBy('id','desc');
+            $Service = Service::get();
         }
         return response()->json($Service);
     }
