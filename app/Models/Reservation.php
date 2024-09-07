@@ -20,6 +20,7 @@ class Reservation extends Model
         'timing_id',
         'user_id',
         'date',
+        'status',
     ];
 
     public function timing(): BelongsTo

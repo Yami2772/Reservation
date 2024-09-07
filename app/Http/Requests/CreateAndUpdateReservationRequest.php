@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ReservationStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class CreateAndUpdateReservationRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class CreateAndUpdateReservationRequest extends FormRequest
             'timing_id' => 'required|digits_between:1,6',
             'user_id' => 'required|digits_between:1,1000',
             'date' => 'required|date_format:Y-m-d',
+            'status' => ['required', new Enum(ReservationStatus::class)],
         ];
     }
 }
