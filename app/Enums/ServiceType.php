@@ -2,10 +2,8 @@
 
 namespace App\Enums;
 
-enum ServiceType: string
+enum ServiceStatus: string
 {
-    case Pool = 'Pool';
-    case Futsal = 'Futsal';
-    case Football = 'Football';
-    case Epical = 'Epical';
+    case open = 'open';
+    case closed = 'closed';
 }

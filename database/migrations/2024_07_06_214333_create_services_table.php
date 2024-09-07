@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('price');
             $table->json('description');
-            $table->enum('type',['Pool','Football','Epical','Footsal']);
+            $table->enum('status', ['open', 'closed'])->default('open');
             $table->timestamps();
         });
     }
