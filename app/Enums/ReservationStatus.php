@@ -5,5 +5,5 @@ namespace App\Enums;
 enum ReservationStatus: string
 {
     case paid = 'paid';
-    case InCart = 'InCart';
+    case waiting_for_payment = 'waiting for payment';
 }
