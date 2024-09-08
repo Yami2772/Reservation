@@ -17,10 +17,18 @@ class ReservationController extends Controller
     public function create(CreateAndUpdateReservationRequest $request)
     {
         if ($request->user()->hasRole(['User', 'Admin'])) {
-            $Reservation = Reservation::create($request->toArray());
-            return response()->json($Reservation);
+            $duplicated = Reservation::where('service_id', $request->service_id)
+                ->where('timing_id', $request->timing_id)
+                ->where('date', $request->date)
+                ->exists();
+            if (!$duplicated) {
+                $Reservation = Reservation::create($request->merge(["status" => "waiting for payment"])->toArray());
+                return response()->json($Reservation);
+            } else {
+                return response()->json('this timing_id/service_id is already reserved!', 403);
+            }
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -30,15 +38,15 @@ class ReservationController extends Controller
             if ($id) {
                 $Reservation = Reservation::where('id', $id)->first();
             } else {
-                $Reservation = Reservation::paginate(5)->orderBy('id', 'desc');
+                $Reservation = Reservation::paginate(10)->orderBy('id', 'desc');
             }
             return response()->json($Reservation);
         } elseif ($request->user()->hasRole('User')) {
             $User = Auth::user();
-            $Reservation = Reservation::where('user_id', $User['id'])->first();
+            $Reservation = Reservation::where('user_id', $User['id'])->paginate(10)->orderBy('id','desc');
             return response()->json($Reservation);
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -47,13 +55,13 @@ class ReservationController extends Controller
         if ($request->user()->hasRole(['Admin', 'User'])) {
             $Reservation = Reservation::where('id', $id)->first();
             if (!$Reservation) {
-                return response()->json('Reservation not found!');
+                return response()->json('Reservation not found!', 404);
             } else {
                 $Reservation->update($request->toArray());
             }
             return response()->json($Reservation);
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -65,7 +73,7 @@ class ReservationController extends Controller
                 $Reservation->delete();
                 return response()->json('Reservation deleted successfully!');
             } else {
-                return response()->json('Reservation not found!');
+                return response()->json('Reservation not found!', 404);
             }
         }
     }
@@ -111,8 +119,8 @@ class ReservationController extends Controller
         $ReservationStatus = [];
         for ($x = 0; $x < 30; $x++) {
             $date = $from->copy()->addDays($x)->format('Y-m-d');
-            $reservations = Reservation::where('service_id', $service->id) //could have used $service['id'] too
-                ->where('timing_id', $timing->id) //could have used $timing['id'] too
+            $reservations = Reservation::where('service_id', $service->id)      //could have used $service['id'] too
+                ->where('timing_id', $timing->id)                               //could have used $timing['id'] too
                 ->whereDate('date', $date)
                 ->exists();
             $ReservationStatus[$date] = $reservations;
