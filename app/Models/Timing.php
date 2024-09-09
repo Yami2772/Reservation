@@ -20,6 +20,7 @@ class Timing extends Model
         'start_time',
         'end_time',
         'status',
+        'sex',
     ];
 
     public function reservations(): HasMany

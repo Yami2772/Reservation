@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\SexTiming;
 use App\Enums\TimingStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
@@ -27,6 +28,7 @@ class CreateAndUpdateTimingRequest extends FormRequest
             'start_time' => 'required|date_format:H:i:s',
             'end_time' => 'required|date_format:H:i:s',
             'status' => ['required',new Enum(TimingStatus::class)],
+            'status' => ['required',new Enum(SexTiming::class)],
         ];
     }
 }

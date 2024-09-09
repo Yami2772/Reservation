@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('timings', function (Blueprint $table) {
             $table->id();
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->time('start_time')->unique();
+            $table->time('end_time')->unique();
             $table->enum('status', ['open', 'closed']);
+            $table->enum('sex', ['male', 'female']);
             $table->timestamps();
         });
     }
