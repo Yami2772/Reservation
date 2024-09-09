@@ -92,9 +92,9 @@ class ReservationController extends Controller
         for ($x = 0; $x < 7; $x++) {
             $date = $from->copy()->addDays($x)->format('Y-m-d');
             foreach ($timings as $time) {
-                $reservations = Reservation::where('service_id', $service_id)
-                    ->whereDate('date', $date)
+                $reservations = Reservation::where('service_id', $service->id)      //could have used $service['id'] too
                     ->where('timing_id', $time)
+                    ->whereDate('date', $date)
                     ->exists();
                 $ReservationStatus[$date][$time] = $reservations;
             }
