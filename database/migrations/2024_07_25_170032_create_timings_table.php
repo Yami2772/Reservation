@@ -16,7 +16,6 @@ return new class extends Migration
             $table->time('start_time')->unique();
             $table->time('end_time')->unique();
             $table->enum('status', ['open', 'closed']);
-            $table->enum('sex', ['male', 'female']);
             $table->timestamps();
         });
     }
