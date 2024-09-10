@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\SexTiming;
 use App\Enums\TimingStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
