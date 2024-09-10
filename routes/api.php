@@ -44,6 +44,9 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('user_edit');
     //user's_delete
     Route::delete('delete', [UserController::class, 'delete'])->name('user_delete');
+    //club_membership
+    Route::post('activating_club_membership', [UserController::class, 'activatingClubMembership'])
+        ->name('activating_club_membership');
 });
 
 //services

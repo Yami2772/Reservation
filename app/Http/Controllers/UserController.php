@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActivatingClubMembership;
 use App\Http\Requests\DeleteRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Models\User;
@@ -21,7 +22,7 @@ class UserController extends Controller
             }
             return response()->json($User);
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -30,7 +31,7 @@ class UserController extends Controller
         if ($request->user()->hasRole('Admin')) {
             $User = User::where('id', $id)->first();
             if (!$User) {
-                return response()->json('User not found!');
+                return response()->json('User not found!', 404);
             } else {
                 $User->update($request
                     ->merge(["Password" => Hash::make($request->Password)])
@@ -38,7 +39,7 @@ class UserController extends Controller
             }
             return response()->json('User edited successfully!');
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -50,14 +51,26 @@ class UserController extends Controller
                 $User->delete();
                 return response()->json('User deleted successfully!');
             } else {
-                return response()->json('User not found!');
+                return response()->json('User not found!', 404);
             }
         } elseif ($request->user()->hasRole('User')) {
             $user = Auth::user();
             User::where('id', $user->id)->delete();
             return response()->json('User deleted successfully!');
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
+        }
+    }
+
+    public function activatingClubMembership(ActivatingClubMembership $request)
+    {
+        if ($request->user()->hasRole('User')) {
+            User::select('club_membership')
+                ->where('phone_number', $request->phone_number)
+                ->update($request->merge(["club_membership" => true]));
+            return response()->json('club membership column set ture!');
+        } else {
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 }
