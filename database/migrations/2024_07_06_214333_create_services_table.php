@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('price');
             $table->json('description');
             $table->enum('status', ['open', 'closed'])->default('open');
+            $table->enum('type', ['pool', 'football', 'footsal', 'volleyball', 'basketball', 'tenis', 'ping_pong', 'martial']);
             $table->timestamps();
         });
     }

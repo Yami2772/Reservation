@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\ServiceStatus;
+use App\Enums\ServiceType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -24,10 +25,11 @@ class CreateAndUpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:services,name',
             'price' => 'required|numeric|max_digits:8',
+            'type' => ['required', new Enum(ServiceType::class)],
+            'status' => ['required', new Enum(ServiceStatus::class)],
             'description' => 'required|array',
-            'type' => ['required', new Enum(ServiceStatus::class)],
             'timing_ids' => 'required|array',
         ];
     }
