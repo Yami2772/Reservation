@@ -75,6 +75,28 @@ class ReservationController extends Controller
             } else {
                 return response()->json('Reservation not found!', 404);
             }
+        } else {
+            return response()->json('You do not have the permission to access this part!', 403);
+        }
+    }
+
+    public function reservationCancel(DeleteRequest $request)
+    {
+        if ($request->user()->hasRole('Admin')) {
+            $reservation = Reservation::where('id', $request->id)->first();
+            if ($reservation) {
+                $now = Carbon::now()->format('Y-m-d H:i:s');
+                $date = Reservation::select('date')->where('id', $request->id);
+                $EXdate = Carbon::parse($date)->addDays(2);
+                if ($now <= $EXdate) {
+                    $reservation->delete();
+                    return response()->json('reservation deleted successfully!');
+                } else {
+                    return response()->json("u can only cancel a reservation if the reservation is 2 days ahead of now", 403);
+                }
+            } else {
+            }
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
