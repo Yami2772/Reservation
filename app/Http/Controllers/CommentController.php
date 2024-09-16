@@ -11,23 +11,34 @@ class CommentController extends Controller
 {
     public function create(CreateCommentRequest $request)
     {
-        if ($request->user()->hasRole('User')) {
-            $comment = Comment::create($request->merge(["status" => "neutral"])->toArray());
-            return response()->json($comment);
+        if ($request->user()->hasRole(['Admin', 'User'])) {
+            $duplicate = Comment::where('user_id', $request->user()->id)
+                ->where('service_id', $request->service_id)
+                ->exists();
+            if (!$duplicate) {
+                $comment = Comment::create($request->merge(["status" => "neutral"])->toArray());
+                return response()->json($comment);
+            } else {
+                return response()->json('U have a set comment for this service_id', 403);
+            }
         } else {
             return response()->json('You do not have the permission to access this part!');
         }
     }
 
-    public function read($service_id = null)
+    public function read(Request $request, $service_id)
     {
-        if ($service_id) {
-            $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
-            if (!$comments) {
-                return response()->json('inserted service_id does not exist!');
+        if ($request->user()->hasRole('Admin')) {
+            if ($service_id) {
+                $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
+                if (!$comments) {
+                    return response()->json('inserted service_id does not exist!');
+                }
+            } else {
+                $comments = Comment::orderBy('id', 'desc')->paginate(10);
             }
-        } else {
-            $comments = Comment::orderBy('id', 'desc')->paginate(10);
+        } elseif ($request->user()->hasRole('User')) {
+            $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
         }
         return response()->json($comments);
     }
