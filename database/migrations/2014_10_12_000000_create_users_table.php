@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('national_code')->nullable();
             $table->enum('sex', ['male', 'female'])->nullable();
             $table->boolean('club_membership')->default(false);
+            $table->boolean('ban_status')->default(false);
             $table->string('password');
             $table->timestamps();
         });

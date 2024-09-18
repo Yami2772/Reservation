@@ -73,4 +73,23 @@ class UserController extends Controller
             return response()->json('You do not have the permission to access this part!', 403);
         }
     }
+
+    public function banningUser(Request $request)
+    {
+        if ($request->user()->hasRole('Admin')) {
+            $user = User::where('id', $request->id)->first();
+            if ($user) {
+                $user->update($request->merge([
+                    "full_name"=> $user['full_name'],
+                    "phone_number" => $user['phone_number'],
+                    "national_code" => $user['national_code'],
+                    "club_membership" => $user['club_membership'],
+                    "birth_date" => $user['birth_date'],
+                    "password" => $user['password'],
+                    "sex" => $user['sex'],
+                    "ban_status" => true
+                ]));
+            }
+        }
+    }
 }

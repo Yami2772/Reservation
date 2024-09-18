@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 //auth
-Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
+Route::prefix('auth')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //register
     Route::post('register', [AuthController::class, 'register'])->name('register')
-        ->withoutMiddleware('auth:sanctum');
+        ->withoutMiddleware(['auth:sanctum','check.ban']);
     //login
     Route::post('login', [AuthController::class, 'login'])->name('login')
-        ->withoutMiddleware('auth:sanctum');
+        ->withoutMiddleware(['auth:sanctum','check.ban']);
     //logout
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
     //me
@@ -37,7 +37,7 @@ Route::prefix('auth')->middleware('auth:sanctum')->group(function () {
 });
 
 //users
-Route::prefix('users')->middleware('auth:sanctum')->group(function () {
+Route::prefix('users')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //user's_list
     Route::get('index/{id?}', [UserController::class, 'index'])->name('user_index');
     //user's_edit
@@ -50,12 +50,12 @@ Route::prefix('users')->middleware('auth:sanctum')->group(function () {
 });
 
 //services
-Route::prefix('services')->middleware('auth:sanctum')->group(function () {
+Route::prefix('services')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //service's_create
     Route::post('create', [ServiceController::class, 'create'])->name('service_create');
     //service's_read
     Route::get('index/{id?}', [ServiceController::class, 'read'])->name('service_read')
-        ->withoutMiddleware('auth:sanctum');
+        ->withoutMiddleware(['auth:sanctum','check.ban']);
     //service's_update
     Route::put('update/{id}', [ServiceController::class, 'update'])->name('service_update');
     //service's_delete
@@ -63,7 +63,7 @@ Route::prefix('services')->middleware('auth:sanctum')->group(function () {
 });
 
 //reservations
-Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
+Route::prefix('reservations')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //reservation's_create
     Route::post('create', [ReservationController::class, 'create'])->name('reservation_create');
     //reservation's_read
@@ -76,13 +76,13 @@ Route::prefix('reservations')->middleware('auth:sanctum')->group(function () {
     Route::delete('canceling', [ReservationController::class, 'reservationCancel'])->name('canceling_reservation');
     //ckeck_reservation
     Route::post('check_reservations_of_week', [ReservationController::class, 'checkReservationsOfWeek'])
-        ->name('check_reservations_of_week')->withoutMiddleware('auth:sanctum');
+        ->name('check_reservations_of_week')->withoutMiddleware(['auth:sanctum','check.ban']);
     Route::post('check_reservations_of_month', [ReservationController::class, 'checkReservationOfMonth'])
-        ->name('check_reservations_of_month')->withoutMiddleware('auth:sanctum');
+        ->name('check_reservations_of_month')->withoutMiddleware(['auth:sanctum','check.ban']);
 });
 
 //timings
-Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
+Route::prefix('timings')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //timing's_create
     Route::post('create', [TimingController::class, 'create'])->name('timing_create');
     //timing's_read
@@ -92,7 +92,7 @@ Route::prefix('timings')->middleware('auth:sanctum')->group(function () {
 });
 
 //settings
-Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
+Route::prefix('settings')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //setting's_create
     Route::post('create', [SettingController::class, 'create'])->name('setting_create');
     //setting's_read
@@ -104,12 +104,12 @@ Route::prefix('settings')->middleware('auth:sanctum')->group(function () {
 });
 
 //comments
-Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
+Route::prefix('comments')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //comment's_create
     Route::post('create', [CommentController::class, 'create'])->name('comment_create');
     //comment's_read
     Route::get('read', [CommentController::class, 'read'])->name('comment_read')
-        ->withoutMiddleware('auth:sanctum');
+        ->withoutMiddleware(['auth:sanctum','check.ban']);
     //comment's_delete
     Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
     //comment's_approval
@@ -119,7 +119,7 @@ Route::prefix('comments')->middleware('auth:sanctum')->group(function () {
 });
 
 //pages
-Route::prefix('pages')->middleware('auth:sanctum')->group(function () {
+Route::prefix('pages')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //page's_create
     Route::post('create', [PageController::class, 'create'])->name('page_create');
     //page's_read
@@ -131,7 +131,7 @@ Route::prefix('pages')->middleware('auth:sanctum')->group(function () {
 });
 
 //media
-Route::prefix('media')->middleware('auth:sanctum')->group(function () {
+Route::prefix('media')->middleware(['auth:sanctum','check.ban'])->group(function () {
     //avatar_upload
     Route::post('avatar_upload', [MediaController::class, 'avatarUpload'])->name('avatar_upload');
     //service_image_upload
