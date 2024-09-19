@@ -22,11 +22,17 @@ class CommentController extends Controller
                 return response()->json('U have a set comment for this service_id', 403);
             }
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
-    public function read(Request $request, $service_id = null)
+    public function readForUsers($service_id)
+    {
+        $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
+        return response()->json($comments);
+    }
+
+    public function readForAdmin(Request $request, $service_id = null)
     {
         if ($request->user()->hasRole('Admin')) {
             if ($service_id) {
@@ -37,8 +43,8 @@ class CommentController extends Controller
             } else {
                 $comments = Comment::orderBy('id', 'desc')->paginate(10);
             }
-        } elseif ($request->user()->hasRole('User')) {
-            $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
+        } else {
+            return response()->json('You do not have the permission to access this part!', 403);
         }
         return response()->json($comments);
     }
@@ -53,7 +59,7 @@ class CommentController extends Controller
                 return response()->json('Comment not found!');
             }
         } else {
-            return response()->json('You do not have the permission to access this part!');
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -73,6 +79,8 @@ class CommentController extends Controller
                 ]));
                 return response()->json($comment);
             }
+        } else {
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 
@@ -92,6 +100,8 @@ class CommentController extends Controller
                 ]));
                 return response()->json($comment);
             }
+        } else {
+            return response()->json('You do not have the permission to access this part!', 403);
         }
     }
 }

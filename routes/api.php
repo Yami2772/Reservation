@@ -107,9 +107,11 @@ Route::prefix('settings')->middleware(['auth:sanctum', 'check.ban'])->group(func
 Route::prefix('comments')->middleware(['auth:sanctum', 'check.ban'])->group(function () {
     //comment's_create
     Route::post('create', [CommentController::class, 'create'])->name('comment_create');
-    //comment's_read
-    Route::get('read/{service_id?}', [CommentController::class, 'read'])->name('comment_read')
+    //comment's_read_for_users
+    Route::get('read/{service_id}', [CommentController::class, 'readForUsers'])->name('comment_read')
         ->withoutMiddleware(['auth:sanctum', 'check.ban']);
+    //comment's_read_for_Admin
+    Route::get('read/{service_id?}', [CommentController::class, 'read'])->name('comment_read');
     //comment's_delete
     Route::delete('delete', [CommentController::class, 'delete'])->name('comment_delete');
     //comment's_approval
