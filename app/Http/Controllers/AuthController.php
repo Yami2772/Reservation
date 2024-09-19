@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $type = $request->type;
-        $User = User::select('id', 'phone_number', 'password')
+        $User = User::select('id', 'phone_number', 'password', 'ban_status')
             ->where('phone_number', $request->phone_number)
             ->first();
         if (!$User) {
@@ -35,7 +35,11 @@ class AuthController extends Controller
             if (!Hash::check($request->password, $User->password)) {
                 return response()->json('Password is INCORRECT!');
             } else {
-                $Token = $User->createToken($request->phone_number)->plainTextToken;
+                if (!$User->ban_status) {
+                    $Token = $User->createToken($request->phone_number)->plainTextToken;
+                } else {
+                    return response()->json('Ur account is banned by Admin', 403);
+                }
             }
             return response()->json(["Token" => $Token]);
         } elseif ($type == 'code_request') {
@@ -55,16 +59,20 @@ class AuthController extends Controller
                 ->where('phone_number', $request->phone_number)
                 ->first();
             $now = Carbon::now()->format('Y-m-d H:i:s');
-            if ($now <= $code['expiration_time']) {
-                if ($code['code'] == $request->code) {
-                    $Token = $User->createToken($request->phone_number)->plainTextToken;
+            if ($code['code'] == $request->code) {
+                if ($now <= $code['expiration_time']) {
+                    if (!$User->ban_status) {
+                        $Token = $User->createToken($request->phone_number)->plainTextToken;
+                    } else {
+                        return response()->json('Ur account is banned by Admin', 403);
+                    }
                     Code::where('code', $request->code)->delete();
                     return response()->json(["Token" => $Token]);
                 } else {
-                    return response()->json('Code or phone number is INCORRECT');
+                    return response()->json('The code is EXPIRED!');
                 }
             } else {
-                return response()->json('The code is EXPIRED!');
+                return response()->json('Code or phone number is INCORRECT');
             }
         } else {
             return response()->json('type is incorrect!');
