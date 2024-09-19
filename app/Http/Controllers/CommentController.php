@@ -26,7 +26,7 @@ class CommentController extends Controller
         }
     }
 
-    public function read(Request $request, $service_id)
+    public function read(Request $request, $service_id = null)
     {
         if ($request->user()->hasRole('Admin')) {
             if ($service_id) {
