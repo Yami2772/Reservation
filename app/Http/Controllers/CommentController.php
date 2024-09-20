@@ -28,7 +28,10 @@ class CommentController extends Controller
 
     public function readForUsers($service_id)
     {
-        $comments = Comment::where('service_id', $service_id)->orderBy('id', 'desc')->paginate(10);
+        $comments = Comment::where('service_id', $service_id)
+            ->where('status', 'accepted')
+            ->orderBy('id', 'desc')
+            ->paginate(10);
         return response()->json($comments);
     }
 
