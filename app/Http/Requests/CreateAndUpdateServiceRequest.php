@@ -28,7 +28,7 @@ class CreateAndUpdateServiceRequest extends FormRequest
             'name' => 'required|string|max:50|unique:services,name',
             'price' => 'required|numeric|max_digits:8',
             'type' => ['required', new Enum(ServiceType::class)],
-            'status' => ['required', new Enum(ServiceStatus::class)],
+            'status' => new Enum(ServiceStatus::class),
             'description' => 'required|array',
             'timing_ids' => 'required|array',
         ];
