@@ -19,8 +19,8 @@ class Reservation extends Model
         'service_id',
         'timing_id',
         'user_id',
-        'date',
         'status',
+        'date',
     ];
 
     public function timing(): BelongsTo
